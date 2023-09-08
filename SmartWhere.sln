@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere", "src\SmartWhere.csproj", "{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere", "src\SmartWhere\SmartWhere.csproj", "{A6B070EA-6B43-4080-AE75-287F40A28927}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere.Console", "src\SmartWhere.Console\SmartWhere.Console.csproj", "{6E8B980B-1626-4DA4-9FC4-8275C16824EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B070EA-6B43-4080-AE75-287F40A28927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B070EA-6B43-4080-AE75-287F40A28927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B070EA-6B43-4080-AE75-287F40A28927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B070EA-6B43-4080-AE75-287F40A28927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8B980B-1626-4DA4-9FC4-8275C16824EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8B980B-1626-4DA4-9FC4-8275C16824EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8B980B-1626-4DA4-9FC4-8275C16824EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8B980B-1626-4DA4-9FC4-8275C16824EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
