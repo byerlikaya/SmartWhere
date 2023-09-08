@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartWhere.Console.Entities;
+using SmartWhere.Api.Entities;
 using System.Reflection;
 
-namespace SmartWhere.Console
+namespace SmartWhere.Api
 {
     public class ProjectDbContext : DbContext
     {

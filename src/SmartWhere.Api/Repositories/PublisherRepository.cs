@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartWhere.Console.Entities;
+using SmartWhere.Api.Entities;
 
-namespace SmartWhere.Console.Repositories
+namespace SmartWhere.Api.Repositories
 {
     public class PublisherRepository
     {

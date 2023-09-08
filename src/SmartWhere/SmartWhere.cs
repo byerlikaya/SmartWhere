@@ -8,7 +8,7 @@ namespace SmartWhere
 {
     public static class SmartWhere
     {
-        public static IQueryable<T> Where<T>(this IQueryable<T> source, IWhereClause whereClauseDto) where T : class
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, IWhereClause whereClauseDto)
         {
             var whereClauseProperties = whereClauseDto
                 .GetType()

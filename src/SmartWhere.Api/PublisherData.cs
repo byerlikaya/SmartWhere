@@ -1,7 +1,7 @@
-﻿using SmartWhere.Console.Entities;
-using SmartWhere.Console.Repositories;
+﻿using SmartWhere.Api.Entities;
+using SmartWhere.Api.Repositories;
 
-namespace SmartWhere.Console
+namespace SmartWhere.Api
 {
     public static class PublisherData
     {
@@ -77,39 +77,6 @@ namespace SmartWhere.Console
                                 Id = 5,
                                 Name = "Author 5",
                                 Surname = "Author 5"
-                            }
-                        }
-                    }
-                },
-                new Publisher
-                {
-                    Id=3,
-                    Name = "Publisher 3"
-                },
-                new Publisher
-                {
-                    Id=4,
-                    Name = "Publisher 4"
-                },
-                new Publisher
-                {
-                    Id = 5,
-                    Name = "Publisher 5",
-                    Books = new List<Book>
-                    {
-                        new Book
-                        {
-                            Name = "Country Book",
-                            Id = 6,
-                            Author = new Author
-                            {
-                                Name = "Country Author",
-                                Id = 6,
-                                Country = new Country
-                                {
-                                    Id = 1,
-                                    Name = "Ankara"
-                                }
                             }
                         }
                     }
