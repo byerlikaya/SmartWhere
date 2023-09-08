@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere", "src\SmartWhere.csproj", "{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FEC1913-E0AD-486C-BA37-A4F5F41482EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9251FEA-18F7-4A5A-8B9C-8157221D4FBE}
+	EndGlobalSection
+EndGlobal
