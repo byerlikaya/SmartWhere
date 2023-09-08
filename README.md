@@ -39,8 +39,15 @@ public class PublisherSearchRequest : IWhereClause
 4. And we filter smartly. That's it.
 
 ```csharp
-_context.Set<Publisher>()
-            .Include(x => x.Books)
-            .ThenInclude(x => x.Author)
-            .Where(request)
+ [HttpPost]
+ public IActionResult GetPublisher(PublisherSearchRequest request)
+ {
+     var result = _context.Set<Publisher>()
+         .Include(x => x.Books)
+         .ThenInclude(x => x.Author)
+         .Where(request)
+         .ToList();
+
+     return Ok(result);
+ }
 ```
