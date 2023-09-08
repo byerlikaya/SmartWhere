@@ -54,3 +54,5 @@ public class PublisherSearchRequest : IWhereClause
      return Ok(result);
  }
 ```
+
+Be sure to check out the [Wiki page](https://github.com/byerlikaya/SmartWhere/wiki) for more details
