@@ -20,7 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+PublisherData.FillDummyData();
 
 app.UseHttpsRedirection();
 

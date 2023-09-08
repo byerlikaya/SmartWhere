@@ -14,7 +14,6 @@ namespace SmartWhere.Api.Controllers
 
         public PublisherController(ProjectDbContext context)
         {
-            PublisherData.FillDummyData();
             _context = context;
         }
 

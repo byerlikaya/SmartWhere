@@ -1,16 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>UniqueID</PackageId>
+    <PackageId>SmartWhere</PackageId>
     <Version>1.0.0</Version>
     <Authors>Barış Yerlikaya</Authors>
     <Company>Barış Yerlikaya</Company>
-    <Product>Product Name</Product>
+    <Product>SmartWhere</Product>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Title>SmartWhere</Title>
+    <Description>It intelligently filters a sequence of items in a simple and practical way.</Description>
+    <Copyright>Copyright (c) 2023 Baris Yerlikaya</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/byerlikaya/SmartWhere</RepositoryUrl>
+    <PackageTags>filter filtering where whereclause smartwhere netcore</PackageTags>
+    <PackageProjectUrl>https://github.com/byerlikaya/SmartWhere#smartwhere</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
