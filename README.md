@@ -3,7 +3,7 @@
 
 
 [![SmartWhere Nuget](https://img.shields.io/nuget/v/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
-![SmartWhere Nuget](https://img.shields.io/nuget/dt/SmartWhere)
+[![SmartWhere Nuget](https://img.shields.io/nuget/dt/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
 
 **SmartWhere** is a method that aims to make the `Enumerable.Where` method smarter and is based on the foundations of .NET Core.
 
