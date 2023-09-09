@@ -1,7 +1,7 @@
 # SmartWhere
 #### It intelligently filters a sequence of items in a simple and practical way.
 
-
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/byerlikaya/SmartWhere/dotnet.yml)
 [![SmartWhere Nuget](https://img.shields.io/nuget/v/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
 [![SmartWhere Nuget](https://img.shields.io/nuget/dt/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
 
