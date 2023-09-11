@@ -8,7 +8,7 @@ namespace SmartWhere.Api.Requests
     {
         public int Start { get; set; }
 
-        public int Max { get; set; }
+        public int Max { get; set; } = 10;
 
         [WhereClauseClass]
         public BookSearchData Data { get; set; }
@@ -21,5 +21,9 @@ namespace SmartWhere.Api.Requests
 
         [WhereClause("Author.Name")]
         public string AuthorName { get; set; }
+
+        [WhereClause("Author.Countries.Name")]
+        //or [WhereClause("Author.Country.Name")]
+        public string CountryName { get; set; }
     }
 }

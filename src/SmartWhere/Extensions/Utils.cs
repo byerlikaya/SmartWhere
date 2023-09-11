@@ -64,7 +64,7 @@ namespace SmartWhere.Extensions
             type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
         internal static bool IsEnumarableType(this Type type) =>
-            type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+            type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IEnumerable<>) || type.GetGenericTypeDefinition() == typeof(List<>));
 
         internal static IEnumerable<(PropertyInfo propertyInfo, Type propertyType)> PropertyInfos(this Type entityType, string propertyName)
         {
@@ -81,7 +81,7 @@ namespace SmartWhere.Extensions
 
             var properties = propertyName.Split('.');
 
-            var index = 0;
+            var index = -1;
 
             foreach (var property in properties)
             {
@@ -90,12 +90,15 @@ namespace SmartWhere.Extensions
                 if (entityPropertInfo.propertyType.IsNotNull())
                 {
                     propertiesList.Add((entityPropertInfo.propertyInfo, entityPropertInfo.propertyType));
+                    index++;
                 }
                 else
                 {
                     if (propertiesList.IsNotNullAndAny())
                     {
-                        var propertyInfo = propertiesList[index].propertyType.GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+                        var propertyInfo = propertiesList[index].propertyType.IsEnumarableType()
+                            ? propertiesList[index].propertyType.GetGenericArguments().FirstOrDefault()!.GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase)
+                            : propertiesList[index].propertyType.GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
 
                         if (propertyInfo.IsNull())
                             continue;
@@ -107,10 +110,11 @@ namespace SmartWhere.Extensions
                     {
                         entityPropertInfo = entityProperties.FirstOrDefault(x => string.Equals(x.propertyInfo.Name, property, StringComparison.OrdinalIgnoreCase));
 
-                        if (entityPropertInfo.propertyType.IsNotNull())
-                        {
-                            propertiesList.Add((entityPropertInfo.propertyInfo, entityPropertInfo.propertyType));
-                        }
+                        if (entityPropertInfo.propertyType.IsNull())
+                            continue;
+
+                        propertiesList.Add((entityPropertInfo.propertyInfo, entityPropertInfo.propertyType));
+                        index++;
                     }
                 }
             }
