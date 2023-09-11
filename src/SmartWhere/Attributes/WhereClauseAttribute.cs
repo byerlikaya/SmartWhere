@@ -11,10 +11,10 @@ namespace SmartWhere.Attributes
 
         public WhereClauseOperator WhereClauseOperator { get; set; }
 
-        public WhereClauseAttribute()
+        public WhereClauseAttribute(WhereClauseOperator whereClauseOperator = WhereClauseOperator.And, Method method = Method.Contains)
         {
-            WhereClauseOperator = WhereClauseOperator.And;
-            Method = Method.Contains;
+            WhereClauseOperator = whereClauseOperator;
+            Method = method;
         }
 
         public WhereClauseAttribute(string propertyName, WhereClauseOperator whereClauseOperator = WhereClauseOperator.And, Method method = Method.Contains)

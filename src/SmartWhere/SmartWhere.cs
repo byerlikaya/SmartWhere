@@ -10,11 +10,7 @@ namespace SmartWhere
     {
         public static IQueryable<T> Where<T>(this IQueryable<T> source, IWhereClause whereClauseDto)
         {
-            var whereClauseProperties = whereClauseDto
-                .GetType()
-                .GetProperties()
-                .Where(x => x.GetWhereClauseAttribute().IsNotNull())
-                .ToList();
+            var whereClauseProperties = whereClauseDto.GetWhereClauseProperties(out var valueData);
 
             if (whereClauseProperties.IsNullOrNotAny())
                 return source.Where(x => true);
@@ -25,7 +21,7 @@ namespace SmartWhere
 
             foreach (var whereClauseProperty in whereClauseProperties!)
             {
-                var propertyValue = whereClauseProperty!.GetValue(whereClauseDto);
+                var propertyValue = whereClauseProperty!.GetValue(valueData);
 
                 if (propertyValue.ValueControl())
                     continue;
@@ -37,6 +33,8 @@ namespace SmartWhere
                  ? source.Where(Expression.Lambda<Func<T, bool>>(comparison!, parameter))
                  : source.Where(x => true);
         }
+
+
 
         private static Expression GetComparison<T>(Expression parameter, PropertyInfo whereClauseProperty, object propertyValue, Expression comparison) =>
             whereClauseProperty.PropertyNameControl<T>()
@@ -83,6 +81,7 @@ namespace SmartWhere
 
             var memberIndex = -1;
             var index = 0;
+            var baseParameterIsEnumarable = false;
 
             ParameterExpression baseParameterExpression = null;
             var baseType = properties[0].propertyType;
@@ -91,9 +90,18 @@ namespace SmartWhere
             {
                 if (propertyInfo.PropertyType!.IsEnumarableType())
                 {
+                    baseParameterIsEnumarable = true;
                     members.Add(members.IsNullOrNotAny()
                         ? (parameter, Expression.Property(parameter, propertyInfo.Name))
                         : (parameter, Expression.Property(members[memberIndex].memberExpression!, propertyInfo.Name)));
+                    memberIndex++;
+                }
+                else if (members.IsNullOrNotAny() && !propertyInfo.PropertyType.UnderlyingSystemType.IsSealed)
+                {
+                    members.Add(members.IsNullOrNotAny()
+                        ? (parameter, Expression.Property(parameter, propertyInfo.Name))
+                        : (parameter, Expression.Property(members[memberIndex].memberExpression!, propertyInfo.Name)));
+                    baseParameterExpression = (ParameterExpression)parameter;
                     memberIndex++;
                 }
                 else
@@ -102,11 +110,11 @@ namespace SmartWhere
 
                     var parameterExpression = Expression.Parameter(type, type.Name.ToLower());
 
-                    var memberExpression = Expression.MakeMemberAccess(
+                    var memberExpression = baseParameterIsEnumarable ? Expression.MakeMemberAccess(
                            members.Count.IsDefault(defaultValue: 1)
                                ? parameterExpression
                                : members[memberIndex].memberExpression,
-                        propertyInfo);
+                        propertyInfo) : Expression.MakeMemberAccess(members[memberIndex].memberExpression, propertyInfo);
 
                     Expression methodExpression = null;
 
@@ -132,16 +140,17 @@ namespace SmartWhere
                         continue;
                     }
 
-                    var methodCallExpression = Expression.Call(typeof(Enumerable),
-                        "Any",
-                        new[] { baseType },
-                        members.FirstOrDefault().memberExpression,
-                        Expression.Lambda(methodExpression!, (baseParameterExpression.IsNull()
-                            ? (ParameterExpression)members[memberIndex].parameter
-                            : baseParameterExpression)!));
+                    var methodCallExpression = baseParameterIsEnumarable
+                        ? (Expression)Expression.Call(typeof(Enumerable), "Any",
+                            new[] { baseType },
+                            members.FirstOrDefault().memberExpression,
+                            Expression.Lambda(methodExpression!, (baseParameterExpression.IsNull()
+                                ? (ParameterExpression)members[memberIndex].parameter
+                                : baseParameterExpression)!)) : null;
+
 
                     comparison = comparison.IsNull()
-                        ? methodCallExpression
+                        ? baseParameterIsEnumarable ? methodCallExpression : methodExpression
                         : Expression.And(comparison!, methodCallExpression!);
 
                     index++;
