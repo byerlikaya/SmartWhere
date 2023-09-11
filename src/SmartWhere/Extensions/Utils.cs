@@ -1,10 +1,45 @@
 ﻿using SmartWhere.Attributes;
+using SmartWhere.Interfaces;
 using System.Reflection;
 
 namespace SmartWhere.Extensions
 {
     public static class Utils
     {
+        internal static List<PropertyInfo> GetWhereClauseProperties(this IWhereClause whereClauseDto, out object valueData)
+        {
+            valueData = whereClauseDto;
+
+            var whereClauseProperties = whereClauseDto
+                .GetType()
+                .GetProperties()
+                .Where(x => x.GetWhereClauseAttribute().IsNotNull())
+                .ToList();
+
+            if (whereClauseProperties.IsNotNullAndAny())
+                return whereClauseProperties;
+
+            whereClauseProperties = whereClauseDto
+                .GetType()
+                .GetProperties()
+                .Where(x => x.GetWhereClauseClassAttribute().IsNotNull())
+                .ToList();
+
+            if (whereClauseProperties.IsNullOrNotAny())
+                return new List<PropertyInfo>();
+
+            valueData = whereClauseProperties.FirstOrDefault()!.GetValue(whereClauseDto);
+
+            whereClauseProperties = whereClauseProperties.SelectMany(x =>
+                    x.PropertyType
+                        .GetProperties()
+                        .Where(p => p.GetWhereClauseAttribute()
+                            .IsNotNull()))
+                .ToList();
+
+            return whereClauseProperties;
+        }
+
         internal static WhereClauseAttribute GetWhereClauseAttribute(this MemberInfo memberInfo) =>
             (WhereClauseAttribute)memberInfo.GetCustomAttribute(typeof(WhereClauseAttribute), false);
 
@@ -111,6 +146,9 @@ namespace SmartWhere.Extensions
 
             return propertiesList;
         }
+
+        private static WhereClauseClassAttribute GetWhereClauseClassAttribute(this MemberInfo memberInfo) =>
+            (WhereClauseClassAttribute)memberInfo.GetCustomAttribute(typeof(WhereClauseClassAttribute), false);
 
         private static bool AreStringsEqual(string firstString, string secondString) =>
             string.Equals(firstString, secondString, StringComparison.OrdinalIgnoreCase);
