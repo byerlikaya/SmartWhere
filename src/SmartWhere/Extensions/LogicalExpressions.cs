@@ -11,8 +11,5 @@
         public static bool IsNotNullAndAny<T>(this IEnumerable<T> items) => items is not null && items.Any();
 
         public static bool IsDefault(this int item) => item is default(int);
-
-        public static bool IsDefault(this int item, int defaultValue) => item == defaultValue;
-
     }
 }

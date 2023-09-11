@@ -8,6 +8,6 @@
 
         public string Surname { get; set; }
 
-        public Country Country { get; set; }
+        public List<Country> Countries { get; set; }
     }
 }

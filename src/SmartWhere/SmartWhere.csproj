@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>SmartWhere</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.2.1</Version>
     <Authors>Barış Yerlikaya</Authors>
     <Company>Barış Yerlikaya</Company>
     <Product>SmartWhere</Product>
@@ -14,10 +14,10 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>SmartWhere</Title>
     <Description>It intelligently filters a sequence of items in a simple and practical way.</Description>
-    <Copyright>Copyright (c) 2023 Baris Yerlikaya</Copyright>
+    <Copyright>Copyright (c) 2023 Barış Yerlikaya</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/byerlikaya/SmartWhere</RepositoryUrl>
-    <PackageTags>filter filtering where whereclause smartwhere netcore</PackageTags>
+    <PackageTags>filter filtering where whereclause smartwhere netcore smart</PackageTags>
     <PackageProjectUrl>https://github.com/byerlikaya/SmartWhere#smartwhere</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
