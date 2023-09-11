@@ -68,9 +68,6 @@ namespace SmartWhere.Extensions
 
         internal static IEnumerable<(PropertyInfo propertyInfo, Type propertyType)> PropertyInfos(this Type entityType, string propertyName)
         {
-            //if (string.IsNullOrEmpty(propertyName))
-            //    return new List<(PropertyInfo propertyInfo, Type type)>();
-
             var propertiesList = new List<(PropertyInfo propertyInfo, Type propertyType)>();
 
             var entityProperties = new List<(PropertyInfo propertyInfo, Type propertyType)>();
@@ -88,61 +85,35 @@ namespace SmartWhere.Extensions
 
             foreach (var property in properties)
             {
-                var aa = entityProperties.FirstOrDefault(x => string.Equals(x.propertyType.Name, property, StringComparison.OrdinalIgnoreCase));
+                var entityPropertInfo = entityProperties.FirstOrDefault(x => string.Equals(x.propertyType.Name, property, StringComparison.OrdinalIgnoreCase));
 
-                if (aa.propertyType.IsNotNull())
+                if (entityPropertInfo.propertyType.IsNotNull())
                 {
-                    //var prop = aa!.propertyType.GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-                    propertiesList.Add((aa.propertyInfo, aa.propertyType));
+                    propertiesList.Add((entityPropertInfo.propertyInfo, entityPropertInfo.propertyType));
                 }
                 else
                 {
-                    var aaa = propertiesList[index].propertyType.GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-                    propertiesList.Add((aaa, aaa.PropertyType));
-                    index++;
+                    if (propertiesList.IsNotNullAndAny())
+                    {
+                        var propertyInfo = propertiesList[index].propertyType.GetProperty(property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+                        if (propertyInfo.IsNull())
+                            continue;
+
+                        propertiesList.Add((propertyInfo, propertyInfo!.PropertyType));
+                        index++;
+                    }
+                    else
+                    {
+                        entityPropertInfo = entityProperties.FirstOrDefault(x => string.Equals(x.propertyInfo.Name, property, StringComparison.OrdinalIgnoreCase));
+
+                        if (entityPropertInfo.propertyType.IsNotNull())
+                        {
+                            propertiesList.Add((entityPropertInfo.propertyInfo, entityPropertInfo.propertyType));
+                        }
+                    }
                 }
             }
-
-            //for (var i = 0; i < properties.Length; i++)
-            //{
-            //    if (entityType.IsEnumarableType())
-            //    {
-            //        entityType = entityType.GetGenericArguments().FirstOrDefault();
-
-            //        //if (entityType.IsNull())
-            //        //    return new Dictionary<PropertyInfo, Type>();
-            //    }
-
-            //    if (i == properties.Length - 1)
-            //    {
-            //        var property = entityType!.GetProperty(properties[i]!, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-
-            //        //if (property.IsNotNull())
-            //        //    propertiesMap.Add(property);
-            //    }
-            //    else
-            //    {
-            //        var property = entityType!.GetProperty(properties[i]!, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-
-            //        if (property.IsNull())
-            //        {
-            //            //entityType.GetProperties().ToList().ForEach(x =>
-            //            //{
-            //            //    propertiesMap.Add(x, x.PropertyType.IsEnumarableType()
-            //            //        ? x.PropertyType.GetGenericArguments().FirstOrDefault()
-            //            //        : x.PropertyType);
-            //            //});
-
-            //            property = entityProperties.FirstOrDefault(x => x.propertyInfo.Name == properties[i]).propertyInfo;
-
-            //            if (property.IsNull())
-            //                return new List<(PropertyInfo propertyInfo, Type propertyType)>();
-            //        }
-
-            //        entityType = property!.PropertyType;
-            //        //propertiesMap.Add(property);
-            //    }
-            //}
 
             return propertiesList;
         }

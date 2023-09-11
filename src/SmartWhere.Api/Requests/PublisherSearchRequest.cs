@@ -14,7 +14,7 @@ namespace SmartWhere.Api.Requests
         [WhereClause("Book.Name")]
         public string BookName { get; set; }
 
-        [WhereClause("Book.Author.Name")]
+        [WhereClause("Books.Author.Name")]
         public string AuthorName { get; set; }
     }
 }
