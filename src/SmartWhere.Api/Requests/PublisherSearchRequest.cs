@@ -1,7 +1,7 @@
 ﻿using SmartWhere.Attributes;
 using SmartWhere.Interfaces;
 
-namespace SmartWhere.Api.Requests
+namespace SmartWhere.Sample.Api.Requests
 {
     public class PublisherSearchRequest : IWhereClause
     {

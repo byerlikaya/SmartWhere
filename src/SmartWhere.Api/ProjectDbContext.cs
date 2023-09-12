@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartWhere.Api.Entities;
+using SmartWhere.Sample.Api.Entities;
 using System.Reflection;
 
-namespace SmartWhere.Api
+namespace SmartWhere.Sample.Api
 {
     public class ProjectDbContext : DbContext
     {
         public DbSet<Publisher> Publishers { get; set; }
-
-        public DbSet<Book> Books { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

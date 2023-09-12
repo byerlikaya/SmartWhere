@@ -1,7 +1,7 @@
-﻿using SmartWhere.Api.Entities;
-using SmartWhere.Api.Repositories;
+﻿using SmartWhere.Sample.Api.Entities;
+using SmartWhere.Sample.Api.Repositories;
 
-namespace SmartWhere.Api
+namespace SmartWhere.Sample.Api
 {
     public static class PublisherData
     {

@@ -1,4 +1,4 @@
-using SmartWhere.Api;
+using SmartWhere.Sample.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Api.Entities
+﻿namespace SmartWhere.Sample.Api.Entities
 {
     public class Book
     {

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere", "src\SmartWhere\SmartWhere.csproj", "{A6B070EA-6B43-4080-AE75-287F40A28927}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere.Api", "src\SmartWhere.Api\SmartWhere.Api.csproj", "{E6CD0D46-AAAA-4B1D-857E-37E339F09935}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartWhere.Sample.Api", "src\SmartWhere.Api\SmartWhere.Sample.Api.csproj", "{E6CD0D46-AAAA-4B1D-857E-37E339F09935}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

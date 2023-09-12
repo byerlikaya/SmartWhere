@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Api.Entities
+﻿namespace SmartWhere.Sample.Api.Entities
 {
     public class Author
     {
@@ -8,6 +8,6 @@
 
         public string Surname { get; set; }
 
-        public List<Country> Countries { get; set; }
+        public Country Country { get; set; }
     }
 }

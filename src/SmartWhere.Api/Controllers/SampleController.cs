@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWhere.Api.Entities;
-using SmartWhere.Api.Requests;
+using SmartWhere.Sample.Api.Entities;
+using SmartWhere.Sample.Api.Requests;
 
-namespace SmartWhere.Api.Controllers
+namespace SmartWhere.Sample.Api.Controllers
 {
 
     [ApiController]
-    public class TestController : ControllerBase
+    public class SampleController : ControllerBase
     {
         private readonly ProjectDbContext _context;
 
-        public TestController(ProjectDbContext context)
+        public SampleController(ProjectDbContext context)
         {
             _context = context;
         }
