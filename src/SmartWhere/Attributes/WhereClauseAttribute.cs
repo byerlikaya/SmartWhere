@@ -7,14 +7,14 @@ namespace SmartWhere.Attributes
     {
         public string PropertyName { get; set; }
 
-        public WhereClauseOperator WhereClauseOperator { get; set; }
+        public LogicalOperator LogicalOperator { get; set; }
 
-        protected WhereClauseAttribute(WhereClauseOperator whereClauseOperator = WhereClauseOperator.And) => WhereClauseOperator = whereClauseOperator;
+        protected WhereClauseAttribute(LogicalOperator logicalOperator = LogicalOperator.AND) => LogicalOperator = logicalOperator;
 
-        public WhereClauseAttribute(string propertyName, WhereClauseOperator whereClauseOperator = WhereClauseOperator.And)
+        public WhereClauseAttribute(string propertyName, LogicalOperator logicalOperator = LogicalOperator.AND)
         {
             PropertyName = propertyName;
-            WhereClauseOperator = whereClauseOperator;
+            LogicalOperator = logicalOperator;
         }
     }
 }

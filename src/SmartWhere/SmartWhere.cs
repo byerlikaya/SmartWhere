@@ -81,7 +81,7 @@ namespace SmartWhere
 
             return comparison.IsNull()
                 ? methodExpression
-                : whereClauseAttribute.WhereClauseOperator == WhereClauseOperator.And
+                : whereClauseAttribute.LogicalOperator == LogicalOperator.AND
                     ? Expression.And(comparison, methodExpression!)
                     : Expression.Or(comparison, methodExpression!);
         }
