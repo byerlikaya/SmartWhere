@@ -9,7 +9,7 @@ namespace SmartWhere.Sample.Api.Requests
         [WhereClause("ProductId")]
         public int? Id { get; set; }
 
-        [StringsWhereClause("ProductName", Method.Contains)]
+        [StringsWhereClause("ProductName", StringMethod.Contains)]
         public string Name { get; set; }
 
         //[WhereClause]
