@@ -1,4 +1,5 @@
-﻿using SmartWhere.Enums;
+﻿using SmartWhere.Attributes;
+using SmartWhere.Enums;
 using SmartWhere.Extensions;
 using SmartWhere.Interfaces;
 using System.Linq.Expressions;
@@ -122,7 +123,7 @@ namespace SmartWhere
 
                         if (propertyType == typeof(string))
                         {
-                            methodExpression = Expression.Call(memberExpression, whereClauseAttribute.MethodInfo(), Expression.Constant(propertyValue));
+                            methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
                         }
                         else if (propertyType == typeof(int))
                         {
@@ -153,7 +154,7 @@ namespace SmartWhere
 
                         if (propertyType == typeof(string))
                         {
-                            methodExpression = Expression.Call(memberExpression, whereClauseAttribute.MethodInfo(), Expression.Constant(propertyValue));
+                            methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
 
                             if (lastEnumerableMember.IsNotNull() && lastEnumerableMember.Type.IsEnumarableType())
                             {

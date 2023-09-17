@@ -43,8 +43,8 @@ namespace SmartWhere.Extensions
         internal static WhereClauseAttribute GetWhereClauseAttribute(this MemberInfo memberInfo) =>
             (WhereClauseAttribute)memberInfo.GetCustomAttribute(typeof(WhereClauseAttribute), false);
 
-        internal static MethodInfo MethodInfo(this WhereClauseAttribute whereClauseAttribute) =>
-            typeof(string).GetMethod(whereClauseAttribute.Method.ToString(), new[] { typeof(string) });
+        internal static MethodInfo MethodInfo(this StringsWhereClauseAttribute stringsWhereClauseAttribute) =>
+            typeof(string).GetMethod(stringsWhereClauseAttribute.Method.ToString(), new[] { typeof(string) });
 
         internal static bool PropertyNameControl<T>(this MemberInfo memberInfo)
         {
