@@ -44,40 +44,7 @@ namespace SmartWhere
         {
             var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
 
-            var memberExpression = string.IsNullOrEmpty(whereClauseAttribute!.PropertyName)
-                ? Expression.Property(parameter, whereClauseProperty.Name)
-                : Expression.Property(parameter, whereClauseAttribute.PropertyName);
-
-            Expression methodExpression = null;
-
-            if (whereClauseProperty.PropertyType.IsNullableType())
-            {
-                var constantExpression = Expression.Constant(Convert.ChangeType(propertyValue, whereClauseProperty.PropertyType.GenericTypeArguments[0]));
-                Expression expression = Expression.Convert(constantExpression, memberExpression.Type);
-
-                if (memberExpression.Type == typeof(string))
-                {
-                    methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
-                }
-                else if (memberExpression.Type == typeof(int))
-                {
-                    methodExpression = Expression.Equal(memberExpression, expression);
-                }
-            }
-            else
-            {
-                if (memberExpression.Type == typeof(string))
-                {
-                    if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
-                        methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
-                    else
-                        methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
-                }
-                else if (memberExpression.Type == typeof(int))
-                {
-                    methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
-                }
-            }
+            var methodExpression = MethodExpressionForBaseComparison(parameter, whereClauseAttribute, whereClauseProperty, propertyValue);
 
             return comparison.IsNull()
                 ? methodExpression
@@ -197,6 +164,42 @@ namespace SmartWhere
             }
 
             return comparison;
+        }
+
+        private static Expression MethodExpressionForBaseComparison(Expression parameter,
+            WhereClauseAttribute whereClauseAttribute, PropertyInfo whereClauseProperty, object propertyValue)
+        {
+            Expression methodExpression = null;
+
+            var memberExpression = string.IsNullOrEmpty(whereClauseAttribute!.PropertyName)
+                ? Expression.Property(parameter, whereClauseProperty.Name)
+                : Expression.Property(parameter, whereClauseAttribute.PropertyName);
+
+            Expression expression;
+
+            if (whereClauseProperty.PropertyType.IsNullableType())
+            {
+                var constantExpression = Expression.Constant(Convert.ChangeType(propertyValue, whereClauseProperty.PropertyType.GenericTypeArguments[0]));
+                expression = Expression.Convert(constantExpression, memberExpression.Type);
+            }
+            else
+            {
+                expression = Expression.Constant(propertyValue);
+            }
+
+            if (memberExpression.Type == typeof(string))
+            {
+                if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
+                    methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
+                else
+                    methodExpression = Expression.Equal(memberExpression, expression);
+            }
+            else if (memberExpression.Type == typeof(int))
+            {
+                methodExpression = Expression.Equal(memberExpression, expression);
+            }
+
+            return methodExpression;
         }
 
     }
