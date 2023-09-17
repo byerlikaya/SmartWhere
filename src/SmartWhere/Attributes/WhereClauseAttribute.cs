@@ -9,10 +9,7 @@ namespace SmartWhere.Attributes
 
         public WhereClauseOperator WhereClauseOperator { get; set; }
 
-        public WhereClauseAttribute(WhereClauseOperator whereClauseOperator = WhereClauseOperator.And)
-        {
-            WhereClauseOperator = whereClauseOperator;
-        }
+        protected WhereClauseAttribute(WhereClauseOperator whereClauseOperator = WhereClauseOperator.And) => WhereClauseOperator = whereClauseOperator;
 
         public WhereClauseAttribute(string propertyName, WhereClauseOperator whereClauseOperator = WhereClauseOperator.And)
         {

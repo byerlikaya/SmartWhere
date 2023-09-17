@@ -57,8 +57,7 @@ namespace SmartWhere.Extensions
                 : properties.Any(x => AreStringsEqual(x.Name, whereClauseAttribute!.PropertyName));
         }
 
-        internal static bool ValueControl(this object value) =>
-            value.IsNull() || string.IsNullOrEmpty(value!.ToString()) || value is int i && i.IsDefault();
+        internal static bool ValueControl(this object value) => value.IsNull() || string.IsNullOrEmpty(value!.ToString());
 
         internal static bool IsNullableType(this Type type) =>
             type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);

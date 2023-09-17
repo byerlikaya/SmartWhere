@@ -1,4 +1,5 @@
 ﻿using SmartWhere.Attributes;
+using SmartWhere.Enums;
 using SmartWhere.Interfaces;
 
 namespace SmartWhere.Sample.Api.Requests
@@ -6,24 +7,24 @@ namespace SmartWhere.Sample.Api.Requests
     public class ProductSearchRequest : IWhereClause
     {
         [WhereClause("ProductId")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
-        [WhereClause("ProductName")]
+        [StringsWhereClause("ProductName", Method.Contains)]
         public string Name { get; set; }
 
-        [WhereClause]
-        public decimal UnitPrice { get; set; }
+        //[WhereClause]
+        public decimal? UnitPrice { get; set; }
 
-        [WhereClause]
-        public int UnitsInStock { get; set; }
+        //[WhereClause]
+        public int? UnitsInStock { get; set; }
 
-        [WhereClause]
-        public int UnitsOnOrder { get; set; }
+        //[WhereClause]
+        public int? UnitsOnOrder { get; set; }
 
-        [WhereClause]
-        public int ReorderLevel { get; set; }
+        //[WhereClause]
+        public int? ReorderLevel { get; set; }
 
-        [WhereClause]
+        //[WhereClause]
         public bool Discontinued { get; set; }
     }
 }

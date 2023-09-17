@@ -44,30 +44,46 @@ namespace SmartWhere
         {
             var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
 
-            var property = string.IsNullOrEmpty(whereClauseAttribute!.PropertyName)
+            var memberExpression = string.IsNullOrEmpty(whereClauseAttribute!.PropertyName)
                 ? Expression.Property(parameter, whereClauseProperty.Name)
                 : Expression.Property(parameter, whereClauseAttribute.PropertyName);
 
-            Expression expression;
-            BinaryExpression binaryExpression;
+            Expression methodExpression = null;
 
             if (whereClauseProperty.PropertyType.IsNullableType())
             {
                 var constantExpression = Expression.Constant(Convert.ChangeType(propertyValue, whereClauseProperty.PropertyType.GenericTypeArguments[0]));
-                expression = Expression.Convert(constantExpression, property.Type);
-                binaryExpression = Expression.Equal(property, expression);
+                Expression expression = Expression.Convert(constantExpression, memberExpression.Type);
+
+                if (memberExpression.Type == typeof(string))
+                {
+                    methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
+                }
+                else if (memberExpression.Type == typeof(int))
+                {
+                    methodExpression = Expression.Equal(memberExpression, expression);
+                }
             }
             else
             {
-                expression = Expression.Constant(propertyValue);
-                binaryExpression = Expression.Equal(property, Expression.Constant(propertyValue));
+                if (memberExpression.Type == typeof(string))
+                {
+                    if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
+                        methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
+                    else
+                        methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
+                }
+                else if (memberExpression.Type == typeof(int))
+                {
+                    methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
+                }
             }
 
             return comparison.IsNull()
-                ? Expression.Equal(property, expression)
+                ? methodExpression
                 : whereClauseAttribute.WhereClauseOperator == WhereClauseOperator.And
-                    ? Expression.And(comparison, binaryExpression)
-                    : Expression.Or(comparison, binaryExpression);
+                    ? Expression.And(comparison, methodExpression!)
+                    : Expression.Or(comparison, methodExpression!);
         }
 
         private static Expression ComplexComparison<T>(Expression baseParameter, MemberInfo whereClauseProperty, object propertyValue, Expression comparison)
