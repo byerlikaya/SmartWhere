@@ -35,16 +35,24 @@ namespace SmartWhere
                  : source.Where(x => true);
         }
 
-        private static Expression GetComparison<T>(Expression parameter, PropertyInfo whereClauseProperty, object propertyValue, Expression comparison) =>
+        private static Expression GetComparison<T>(
+            Expression parameter,
+            PropertyInfo whereClauseProperty,
+            object propertyValue,
+            Expression comparison) =>
             whereClauseProperty.PropertyNameControl<T>()
-                ? BaseComparison(parameter, whereClauseProperty, propertyValue, comparison)
+                ? BasicComparison(parameter, whereClauseProperty, propertyValue, comparison)
                 : ComplexComparison<T>(parameter, whereClauseProperty, propertyValue, comparison);
 
-        private static Expression BaseComparison(Expression parameter, PropertyInfo whereClauseProperty, object propertyValue, Expression comparison)
+        private static Expression BasicComparison(
+            Expression parameter,
+            PropertyInfo whereClauseProperty,
+            object propertyValue,
+            Expression comparison)
         {
             var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
 
-            var methodExpression = MethodExpressionForBaseComparison(parameter, whereClauseAttribute, whereClauseProperty, propertyValue);
+            var methodExpression = MethodExpressionForBasicComparison(parameter, whereClauseAttribute, whereClauseProperty, propertyValue);
 
             return comparison.IsNull()
                 ? methodExpression
@@ -53,7 +61,11 @@ namespace SmartWhere
                     : Expression.Or(comparison, methodExpression!);
         }
 
-        private static Expression ComplexComparison<T>(Expression baseParameter, MemberInfo whereClauseProperty, object propertyValue, Expression comparison)
+        private static Expression ComplexComparison<T>(
+            Expression baseParameter,
+            MemberInfo whereClauseProperty,
+            object propertyValue,
+            Expression comparison)
         {
             var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
 
@@ -166,8 +178,11 @@ namespace SmartWhere
             return comparison;
         }
 
-        private static Expression MethodExpressionForBaseComparison(Expression parameter,
-            WhereClauseAttribute whereClauseAttribute, PropertyInfo whereClauseProperty, object propertyValue)
+        private static Expression MethodExpressionForBasicComparison(
+            Expression parameter,
+            WhereClauseAttribute whereClauseAttribute,
+            PropertyInfo whereClauseProperty,
+            object propertyValue)
         {
             Expression methodExpression = null;
 
