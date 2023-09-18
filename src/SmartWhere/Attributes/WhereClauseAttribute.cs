@@ -9,7 +9,7 @@ namespace SmartWhere.Attributes
 
         public LogicalOperator LogicalOperator { get; set; }
 
-        protected WhereClauseAttribute(LogicalOperator logicalOperator = LogicalOperator.AND) => LogicalOperator = logicalOperator;
+        public WhereClauseAttribute(LogicalOperator logicalOperator = LogicalOperator.AND) => LogicalOperator = logicalOperator;
 
         public WhereClauseAttribute(string propertyName, LogicalOperator logicalOperator = LogicalOperator.AND)
         {

@@ -61,146 +61,38 @@ namespace SmartWhere
                     : Expression.Or(comparison, methodExpression!);
         }
 
-        private static Expression ComplexComparison<T>(
-            Expression baseParameter,
-            MemberInfo whereClauseProperty,
-            object propertyValue,
-            Expression comparison)
-        {
-            var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
-
-            var properties = typeof(T).PropertyInfos(whereClauseAttribute!.PropertyName).ToList();
-
-            MemberExpression lastMember = null;
-            MemberExpression lastEnumerableMember = null;
-            Type currentType = null;
-            ParameterExpression parameterExpression = null;
-            var index = 0;
-
-            foreach (var (propertyInfo, propertyType) in properties)
-            {
-                Type type;
-
-                if (!propertyType.Namespace.StartsWith("System") || propertyInfo.PropertyType!.IsEnumarableType())
-                {
-                    if (lastMember.IsNull())
-                    {
-                        lastMember = lastEnumerableMember = Expression.Property(baseParameter, propertyInfo.Name);
-                    }
-                    else
-                    {
-                        type = currentType.GetGenericArguments().FirstOrDefault();
-                        if (currentType.IsEnumarableType())
-                        {
-                            parameterExpression = Expression.Parameter(type, type.Name.ToLower());
-                            lastMember = Expression.MakeMemberAccess(parameterExpression, propertyInfo);
-                        }
-                        else
-                        {
-                            lastMember = Expression.Property(lastMember!, propertyInfo.Name);
-                        }
-                    }
-
-                    currentType = propertyInfo.PropertyType;
-
-                }
-                else
-                {
-                    MemberExpression memberExpression;
-
-                    if (currentType.IsEnumarableType())
-                    {
-                        type = currentType.GetGenericArguments().FirstOrDefault();
-                        parameterExpression = Expression.Parameter(type, type.Name.ToLower());
-                        memberExpression = Expression.MakeMemberAccess(parameterExpression, propertyInfo);
-
-                        Expression methodExpression = null;
-
-                        if (propertyType == typeof(string))
-                        {
-                            methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
-                        }
-                        else if (propertyType == typeof(int))
-                        {
-                            methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
-                        }
-
-                        var methodCallExpression =
-                            Expression.Call(typeof(Enumerable),
-                                "Any",
-                                new[] { lastMember.Type.GetGenericArguments().FirstOrDefault() },
-                                lastMember,
-                                Expression.Lambda(methodExpression, parameterExpression));
-
-                        comparison = comparison.IsNull()
-                            ? methodCallExpression
-                            : Expression.And(comparison!, methodCallExpression!);
-                    }
-                    else
-                    {
-                        type = properties[index].propertyType;
-                        parameterExpression = parameterExpression.IsNull()
-                            ? Expression.Parameter(type, type.Name.ToLower())
-                            : parameterExpression;
-
-                        memberExpression = Expression.MakeMemberAccess(lastMember, propertyInfo);
-
-                        Expression methodExpression = null;
-
-                        if (propertyType == typeof(string))
-                        {
-                            methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
-
-                            if (lastEnumerableMember.IsNotNull() && lastEnumerableMember.Type.IsEnumarableType())
-                            {
-                                methodExpression =
-                                    Expression.Call(typeof(Enumerable),
-                                        "Any",
-                                        new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
-                                        lastEnumerableMember,
-                                        Expression.Lambda(methodExpression, parameterExpression));
-                            }
-                        }
-                        else if (propertyType == typeof(int))
-                        {
-                            methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
-                        }
-
-                        comparison = comparison.IsNull()
-                            ? methodExpression
-                            : Expression.And(comparison!, methodExpression!);
-                    }
-
-                    index++;
-                }
-            }
-
-            return comparison;
-        }
-
         private static Expression MethodExpressionForBasicComparison(
             Expression parameter,
             WhereClauseAttribute whereClauseAttribute,
             PropertyInfo whereClauseProperty,
             object propertyValue)
         {
-            Expression methodExpression = null;
-
             var memberExpression = string.IsNullOrEmpty(whereClauseAttribute!.PropertyName)
                 ? Expression.Property(parameter, whereClauseProperty.Name)
                 : Expression.Property(parameter, whereClauseAttribute.PropertyName);
 
-            Expression expression;
+            var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
 
-            if (whereClauseProperty.PropertyType.IsNullableType())
-            {
-                var constantExpression = Expression.Constant(Convert.ChangeType(propertyValue, whereClauseProperty.PropertyType.GenericTypeArguments[0]));
-                expression = Expression.Convert(constantExpression, memberExpression.Type);
-            }
-            else
-            {
-                expression = Expression.Constant(propertyValue);
-            }
+            var methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
+
+            return methodExpression;
+        }
+
+        private static Expression SetExpressionByNull(PropertyInfo whereClauseProperty, object propertyValue,
+            Type memberExpressionType)
+        {
+            if (!whereClauseProperty.PropertyType.IsNullableType())
+                return Expression.Constant(propertyValue);
+
+            var constantExpression = Expression.Constant(Convert.ChangeType(propertyValue, whereClauseProperty.PropertyType.GenericTypeArguments[0]));
+            return Expression.Convert(constantExpression, memberExpressionType);
+
+        }
+
+        private static Expression SetMethodExpressionByType(Expression memberExpression,
+            WhereClauseAttribute whereClauseAttribute, Expression expression)
+        {
+            Expression methodExpression = null;
 
             if (memberExpression.Type == typeof(string))
             {
@@ -217,5 +109,177 @@ namespace SmartWhere
             return methodExpression;
         }
 
+        private static Expression ComplexComparison<T>(
+            Expression baseParameter,
+            PropertyInfo whereClauseProperty,
+            object propertyValue,
+            Expression comparison)
+        {
+            var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
+
+            var properties = typeof(T)
+                .PropertyInfos(whereClauseAttribute!.PropertyName)
+                .ToList();
+
+            MemberExpression lastMember = null;
+            MemberExpression lastEnumerableMember = null;
+            Type currentType = null;
+            ParameterExpression parameterExpression = null;
+            var index = 0;
+
+            foreach (var (propertyInfo, propertyType) in properties)
+            {
+                if (!propertyType.Namespace!.StartsWith("System") || propertyInfo.PropertyType!.IsEnumarableType())
+                {
+                    lastMember = lastEnumerableMember = SetLastMember(
+                        lastMember,
+                        baseParameter,
+                        propertyInfo,
+                        currentType);
+
+                    currentType = propertyInfo.PropertyType;
+                }
+                else
+                {
+                    var type = SetType(currentType, properties[index].propertyType);
+
+                    parameterExpression = SetParameterExpression(
+                        currentType,
+                        type,
+                        parameterExpression);
+
+                    var memberExpression = SetMemberExpression(
+                        currentType,
+                        parameterExpression,
+                        propertyInfo,
+                        lastMember);
+
+                    var methodExpression = MethodExpressionForComplexComparison(
+                        currentType,
+                        propertyType,
+                        propertyValue,
+                        memberExpression,
+                        whereClauseAttribute,
+                        whereClauseProperty,
+                        lastMember,
+                        parameterExpression,
+                        lastEnumerableMember);
+
+                    comparison = comparison.IsNull()
+                        ? methodExpression
+                        : Expression.And(comparison!, methodExpression!);
+
+                    index++;
+                }
+            }
+
+            return comparison;
+        }
+
+        private static MemberExpression SetLastMember(
+            MemberExpression lastMember,
+            Expression baseParameter,
+            MemberInfo propertyInfo,
+            Type currentType)
+        {
+            if (lastMember.IsNull())
+            {
+                lastMember = Expression.Property(baseParameter, propertyInfo.Name);
+            }
+            else
+            {
+                var type = currentType!.GetGenericArguments().FirstOrDefault();
+
+                lastMember = currentType.IsEnumarableType()
+                    ? Expression.MakeMemberAccess(Expression.Parameter(type!, type!.Name.ToLower()), propertyInfo)
+                    : Expression.Property(lastMember!, propertyInfo.Name);
+            }
+
+            return lastMember;
+        }
+
+        private static Type SetType(Type currentType, Type propertyType) =>
+            currentType.IsEnumarableType()
+                ? currentType!.GetGenericArguments().FirstOrDefault()
+                : propertyType;
+
+        private static ParameterExpression SetParameterExpression(
+            Type currentType,
+            Type type,
+            ParameterExpression parameterExpression)
+        {
+            if (currentType.IsEnumarableType())
+            {
+                return Expression.Parameter(type!, type!.Name.ToLower());
+            }
+
+            return parameterExpression.IsNull()
+                ? Expression.Parameter(type, type.Name.ToLower())
+                : parameterExpression;
+
+        }
+
+        private static MemberExpression SetMemberExpression(
+            Type currentType,
+            Expression parameterExpression,
+            MemberInfo propertyInfo,
+            Expression lastMember) =>
+            currentType.IsEnumarableType()
+                ? Expression.MakeMemberAccess(parameterExpression, propertyInfo)
+                : Expression.MakeMemberAccess(lastMember, propertyInfo);
+
+        private static Expression MethodExpressionForComplexComparison(
+            Type currentType,
+            Type propertyType,
+            object propertyValue,
+            Expression memberExpression,
+            WhereClauseAttribute whereClauseAttribute,
+            PropertyInfo whereClauseProperty,
+            Expression lastMember,
+            ParameterExpression parameterExpression,
+            MemberExpression lastEnumerableMember)
+        {
+            Expression methodExpression = null;
+
+            if (currentType.IsEnumarableType())
+            {
+                var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
+
+                methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
+
+                methodExpression =
+                    Expression.Call(typeof(Enumerable),
+                        "Any",
+                        new[] { lastMember.Type.GetGenericArguments().FirstOrDefault() },
+                        lastMember,
+                        Expression.Lambda(methodExpression, parameterExpression));
+            }
+            else
+            {
+                if (propertyType == typeof(string))
+                {
+                    if (lastEnumerableMember.IsNotNull() && lastEnumerableMember.Type.IsEnumarableType())
+                    {
+                        methodExpression =
+                            Expression.Call(typeof(Enumerable),
+                                "Any",
+                                new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
+                                lastEnumerableMember,
+                                Expression.Lambda(methodExpression!, parameterExpression));
+                    }
+                    else
+                    {
+                        methodExpression =
+                            Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
+                    }
+                }
+                else if (propertyType == typeof(int))
+                {
+                    methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
+                }
+            }
+
+            return methodExpression;
+        }
     }
 }

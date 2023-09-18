@@ -1,18 +1,17 @@
 ﻿using SmartWhere.Attributes;
-using SmartWhere.Enums;
 using SmartWhere.Interfaces;
 
 namespace SmartWhere.Sample.Api.Requests
 {
     public class ProductSearchRequest : IWhereClause
     {
-        [WhereClause("ProductId")]
+        //[WhereClause("ProductId")]
         public int? Id { get; set; }
 
-        [StringsWhereClause("ProductName", StringMethod.Contains)]
+        //[StringsWhereClause("ProductName", StringMethod.Contains)]
         public string Name { get; set; }
 
-        //[WhereClause]
+        [WhereClause]
         public decimal? UnitPrice { get; set; }
 
         //[WhereClause]
