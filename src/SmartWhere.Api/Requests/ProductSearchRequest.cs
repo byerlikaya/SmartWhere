@@ -6,25 +6,28 @@ namespace SmartWhere.Sample.Api.Requests
 {
     public class ProductSearchRequest : IWhereClause
     {
-        [NumericsWhereCaluse("ProductID", ComparisonOperator.GreaterThan)]
+        [NumericsWhereCaluse("ProductID", ComparisonOperator.Equal)]
         public int? Id { get; set; }
 
-        //[StringsWhereClause("ProductName", StringMethod.Contains)]
+        [WhereClause("Category.CategoryID")]
+        public int? CategoryId { get; set; }
+
+        [StringsWhereClause("ProductName", StringMethod.Contains)]
         public string Name { get; set; }
 
-        //[NumericsWhereCaluse(ComparisonOperator.GreaterThan)]
+        [NumericsWhereCaluse(ComparisonOperator.GreaterThan)]
         public decimal? UnitPrice { get; set; }
 
-        //[NumericsWhereCaluse(ComparisonOperator.GreaterThanOrEqual)]
+        [NumericsWhereCaluse(ComparisonOperator.GreaterThanOrEqual)]
         public int? UnitsInStock { get; set; }
 
-        //[WhereClause]
+        [WhereClause]
         public int? UnitsOnOrder { get; set; }
 
-        //[WhereClause]
+        [WhereClause]
         public int? ReorderLevel { get; set; }
 
-        //[WhereClause]
+        [WhereClause]
         public bool? Discontinued { get; set; }
     }
 }

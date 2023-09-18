@@ -1,6 +1,6 @@
 ﻿namespace SmartWhere.Northwind.Entities
 {
-    public class Shippers
+    public class Shipper
     {
         public int ShipperID { get; set; }
 

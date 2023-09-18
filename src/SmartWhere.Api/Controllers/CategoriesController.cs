@@ -1,24 +1,23 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartWhere.Sample.Api.ApplicationSpecific;
 using SmartWhere.Sample.Api.Requests;
 
 namespace SmartWhere.Sample.Api.Controllers
 {
-
     [ApiController]
-    public class ProductController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly ProjectDbContext _context;
 
-        public ProductController(ProjectDbContext context)
+        public CategoriesController(ProjectDbContext context)
         {
             _context = context;
         }
 
-        [HttpPost("/products")]
-        public IActionResult GetPublishers(ProductSearchRequest request)
+        [HttpPost("/categories")]
+        public IActionResult Categories(CategorySearchRequest request)
         {
-            var result = _context.Products
+            var result = _context.Categories
                 .Where(request)
                 .ToList();
 

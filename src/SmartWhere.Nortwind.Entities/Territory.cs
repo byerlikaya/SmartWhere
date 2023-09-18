@@ -1,6 +1,6 @@
 ﻿namespace SmartWhere.Northwind.Entities
 {
-    public class Territories
+    public class Territory
     {
         public string TerritoryID { get; set; }
 

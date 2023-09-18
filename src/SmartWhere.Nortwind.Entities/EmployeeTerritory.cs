@@ -1,6 +1,6 @@
 ﻿namespace SmartWhere.Northwind.Entities
 {
-    public class EmployeeTerritories
+    public class EmployeeTerritory
     {
         public int EmployeeID { get; set; }
 

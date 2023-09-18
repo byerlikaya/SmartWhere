@@ -25,6 +25,6 @@ namespace SmartWhere.Northwind.Entities
 
         public bool Discontinued { get; set; }
 
-
+        public Category Category { get; set; }
     }
 }

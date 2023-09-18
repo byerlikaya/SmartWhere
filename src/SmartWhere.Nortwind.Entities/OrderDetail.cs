@@ -1,7 +1,10 @@
-﻿namespace SmartWhere.Northwind.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SmartWhere.Northwind.Entities
 {
-    public class OrderDetails
+    public class OrderDetail
     {
+        [Key]
         public int OrderID { get; set; }
 
         public int ProductID { get; set; }
@@ -11,6 +14,5 @@
         public short Quantity { get; set; }
 
         public float Discount { get; set; }
-
     }
 }
