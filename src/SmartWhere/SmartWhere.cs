@@ -158,13 +158,14 @@ namespace SmartWhere
             ParameterExpression parameterExpression = null;
             var index = 0;
 
-            Expression methodExpression = null;
-
             foreach (var (propertyInfo, propertyType) in properties)
             {
                 if (!propertyType.Namespace!.StartsWith("System") || propertyInfo.PropertyType!.IsEnumarableType())
                 {
-                    lastMember = lastEnumerableMember = SetLastMember(
+
+                    lastEnumerableMember = SetLastEnumerableMember(lastEnumerableMember, lastMember, baseParameter, propertyInfo.Name);
+
+                    lastMember = SetLastMember(
                         lastMember,
                         baseParameter,
                         propertyInfo,
@@ -187,17 +188,16 @@ namespace SmartWhere
                         propertyInfo,
                         lastMember);
 
-                    methodExpression = MethodExpressionForComplexComparison(
-                       currentType,
-                       propertyType,
-                       propertyValue,
-                       memberExpression,
-                       whereClauseAttribute,
-                       whereClauseProperty,
-                       lastMember,
-                       parameterExpression,
-                       lastEnumerableMember,
-                       methodExpression);
+                    var methodExpression = MethodExpressionForComplexComparison(
+                        currentType,
+                        propertyType,
+                        propertyValue,
+                        memberExpression,
+                        whereClauseAttribute,
+                        whereClauseProperty,
+                        lastMember,
+                        parameterExpression,
+                        lastEnumerableMember);
 
                     comparison = comparison.IsNull()
                         ? methodExpression
@@ -209,6 +209,15 @@ namespace SmartWhere
 
             return comparison;
         }
+
+        private static MemberExpression SetLastEnumerableMember(
+            MemberExpression lastEnumerableMember,
+            MemberExpression lastMember,
+            Expression baseParameter,
+            string propertyInfoName) =>
+            lastMember.IsNull()
+                ? Expression.Property(baseParameter, propertyInfoName)
+                : lastEnumerableMember;
 
         private static MemberExpression SetLastMember(
             MemberExpression lastMember,
@@ -273,15 +282,14 @@ namespace SmartWhere
             PropertyInfo whereClauseProperty,
             Expression lastMember,
             ParameterExpression parameterExpression,
-            MemberExpression lastEnumerableMember,
-            Expression methodExpression)
+            MemberExpression lastEnumerableMember)
         {
+            var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
+
+            var methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
+
             if (currentType.IsEnumarableType())
             {
-                var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
-
-                methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
-
                 return Expression.Call(typeof(Enumerable),
                         "Any",
                         new[] { lastMember.Type.GetGenericArguments().FirstOrDefault() },
@@ -300,9 +308,7 @@ namespace SmartWhere
                             Expression.Lambda(methodExpression!, parameterExpression));
                 }
 
-                var expression = Expression.Constant(propertyValue);
-
-                return SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
+                return SetMethodExpressionByType(memberExpression, whereClauseAttribute, Expression.Constant(propertyValue));
             }
 
             if (Types.Contains(propertyType))
