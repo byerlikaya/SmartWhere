@@ -7,9 +7,9 @@ namespace SmartWhere.Sample.Api.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ProjectDbContext _context;
+        private readonly MSSqlContext _context;
 
-        public CategoriesController(ProjectDbContext context)
+        public CategoriesController(MSSqlContext context)
         {
             _context = context;
         }

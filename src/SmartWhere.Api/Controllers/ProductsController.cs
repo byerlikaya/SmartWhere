@@ -8,9 +8,9 @@ namespace SmartWhere.Sample.Api.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProjectDbContext _context;
+        private readonly MSSqlContext _context;
 
-        public ProductsController(ProjectDbContext context)
+        public ProductsController(MSSqlContext context)
         {
             _context = context;
         }

@@ -300,7 +300,9 @@ namespace SmartWhere
                             Expression.Lambda(methodExpression!, parameterExpression));
                 }
 
-                return Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
+                var expression = Expression.Constant(propertyValue);
+
+                return SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
             }
 
             if (Types.Contains(propertyType))

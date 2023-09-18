@@ -3,11 +3,11 @@ using SmartWhere.Northwind.Entities;
 
 namespace SmartWhere.Sample.Api.ApplicationSpecific
 {
-    public class ProjectDbContext : DbContext
+    public class MSSqlContext : DbContext
     {
         private IConfiguration Configuration { get; }
 
-        public ProjectDbContext(IConfiguration configuration)
+        public MSSqlContext(IConfiguration configuration)
         {
             Configuration = configuration;
         }
