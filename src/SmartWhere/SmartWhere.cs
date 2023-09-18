@@ -9,6 +9,22 @@ namespace SmartWhere
 {
     public static class SmartWhere
     {
+        private static readonly List<Type> Types = new()
+        {
+            typeof(short),
+            typeof(int),
+            typeof(long),
+            typeof(short?),
+            typeof(int?),
+            typeof(long?),
+            typeof(decimal),
+            typeof(decimal?),
+            typeof(double),
+            typeof(double?),
+            typeof(bool),
+            typeof(bool?),
+        };
+
         public static IQueryable<T> Where<T>(this IQueryable<T> source, IWhereClause whereClauseDto)
         {
             var whereClauseProperties = whereClauseDto.GetWhereClauseProperties(out var valueData);
@@ -73,12 +89,12 @@ namespace SmartWhere
 
             var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
 
-            var methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
-
-            return methodExpression;
+            return SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
         }
 
-        private static Expression SetExpressionByNull(PropertyInfo whereClauseProperty, object propertyValue,
+        private static Expression SetExpressionByNull(
+            PropertyInfo whereClauseProperty,
+            object propertyValue,
             Type memberExpressionType)
         {
             if (!whereClauseProperty.PropertyType.IsNullableType())
@@ -89,24 +105,26 @@ namespace SmartWhere
 
         }
 
-        private static Expression SetMethodExpressionByType(Expression memberExpression,
-            WhereClauseAttribute whereClauseAttribute, Expression expression)
+        private static Expression SetMethodExpressionByType(
+            Expression memberExpression,
+            WhereClauseAttribute whereClauseAttribute,
+            Expression expression)
         {
-            Expression methodExpression = null;
 
             if (memberExpression.Type == typeof(string))
             {
                 if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
-                    methodExpression = Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
-                else
-                    methodExpression = Expression.Equal(memberExpression, expression);
-            }
-            else if (memberExpression.Type == typeof(int))
-            {
-                methodExpression = Expression.Equal(memberExpression, expression);
+                    return Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
+
+                return Expression.Equal(memberExpression, expression);
             }
 
-            return methodExpression;
+            if (Types.Contains(memberExpression.Type))
+            {
+                return Expression.Equal(memberExpression, expression);
+            }
+
+            return Expression.Equal(memberExpression, expression);
         }
 
         private static Expression ComplexComparison<T>(
@@ -126,6 +144,8 @@ namespace SmartWhere
             Type currentType = null;
             ParameterExpression parameterExpression = null;
             var index = 0;
+
+            Expression methodExpression = null;
 
             foreach (var (propertyInfo, propertyType) in properties)
             {
@@ -154,16 +174,17 @@ namespace SmartWhere
                         propertyInfo,
                         lastMember);
 
-                    var methodExpression = MethodExpressionForComplexComparison(
-                        currentType,
-                        propertyType,
-                        propertyValue,
-                        memberExpression,
-                        whereClauseAttribute,
-                        whereClauseProperty,
-                        lastMember,
-                        parameterExpression,
-                        lastEnumerableMember);
+                    methodExpression = MethodExpressionForComplexComparison(
+                       currentType,
+                       propertyType,
+                       propertyValue,
+                       memberExpression,
+                       whereClauseAttribute,
+                       whereClauseProperty,
+                       lastMember,
+                       parameterExpression,
+                       lastEnumerableMember,
+                       methodExpression);
 
                     comparison = comparison.IsNull()
                         ? methodExpression
@@ -198,7 +219,9 @@ namespace SmartWhere
             return lastMember;
         }
 
-        private static Type SetType(Type currentType, Type propertyType) =>
+        private static Type SetType(
+            Type currentType,
+            Type propertyType) =>
             currentType.IsEnumarableType()
                 ? currentType!.GetGenericArguments().FirstOrDefault()
                 : propertyType;
@@ -237,49 +260,42 @@ namespace SmartWhere
             PropertyInfo whereClauseProperty,
             Expression lastMember,
             ParameterExpression parameterExpression,
-            MemberExpression lastEnumerableMember)
+            MemberExpression lastEnumerableMember,
+            Expression methodExpression)
         {
-            Expression methodExpression = null;
-
             if (currentType.IsEnumarableType())
             {
                 var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
 
                 methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
 
-                methodExpression =
-                    Expression.Call(typeof(Enumerable),
+                return Expression.Call(typeof(Enumerable),
                         "Any",
                         new[] { lastMember.Type.GetGenericArguments().FirstOrDefault() },
                         lastMember,
                         Expression.Lambda(methodExpression, parameterExpression));
             }
-            else
+
+            if (propertyType == typeof(string))
             {
-                if (propertyType == typeof(string))
+                if (lastEnumerableMember.IsNotNull() && lastEnumerableMember.Type.IsEnumarableType())
                 {
-                    if (lastEnumerableMember.IsNotNull() && lastEnumerableMember.Type.IsEnumarableType())
-                    {
-                        methodExpression =
-                            Expression.Call(typeof(Enumerable),
-                                "Any",
-                                new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
-                                lastEnumerableMember,
-                                Expression.Lambda(methodExpression!, parameterExpression));
-                    }
-                    else
-                    {
-                        methodExpression =
-                            Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
-                    }
+                    return Expression.Call(typeof(Enumerable),
+                            "Any",
+                            new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
+                            lastEnumerableMember,
+                            Expression.Lambda(methodExpression!, parameterExpression));
                 }
-                else if (propertyType == typeof(int))
-                {
-                    methodExpression = Expression.Equal(memberExpression, Expression.Constant(propertyValue));
-                }
+
+                return Expression.Call(memberExpression, ((StringsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), Expression.Constant(propertyValue));
             }
 
-            return methodExpression;
+            if (Types.Contains(propertyType))
+            {
+                return Expression.Equal(memberExpression, Expression.Constant(propertyValue));
+            }
+
+            return Expression.Equal(memberExpression, Expression.Constant(propertyValue));
         }
     }
 }

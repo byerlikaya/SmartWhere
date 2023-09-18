@@ -1,4 +1,5 @@
 ﻿using SmartWhere.Attributes;
+using SmartWhere.Enums;
 using SmartWhere.Interfaces;
 
 namespace SmartWhere.Sample.Api.Requests
@@ -8,10 +9,10 @@ namespace SmartWhere.Sample.Api.Requests
         //[WhereClause("ProductId")]
         public int? Id { get; set; }
 
-        //[StringsWhereClause("ProductName", StringMethod.Contains)]
+        [StringsWhereClause("ProductName", StringMethod.Contains)]
         public string Name { get; set; }
 
-        [WhereClause]
+        //[WhereClause]
         public decimal? UnitPrice { get; set; }
 
         //[WhereClause]
@@ -24,7 +25,7 @@ namespace SmartWhere.Sample.Api.Requests
         public int? ReorderLevel { get; set; }
 
         //[WhereClause]
-        public bool Discontinued { get; set; }
+        public bool? Discontinued { get; set; }
     }
 }
 
