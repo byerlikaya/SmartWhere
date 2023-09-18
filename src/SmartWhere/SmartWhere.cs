@@ -119,12 +119,25 @@ namespace SmartWhere
                 return Expression.Equal(memberExpression, expression);
             }
 
-            if (Types.Contains(memberExpression.Type))
-            {
+            if (!Types.Contains(memberExpression.Type))
                 return Expression.Equal(memberExpression, expression);
+
+            if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
+            {
+                return ((NumericsWhereCaluseAttribute)whereClauseAttribute).ComparisonOperator switch
+                {
+                    ComparisonOperator.Equal => Expression.Equal(memberExpression, expression),
+                    ComparisonOperator.NotEqual => Expression.NotEqual(memberExpression, expression),
+                    ComparisonOperator.GreaterThan => Expression.GreaterThan(memberExpression, expression),
+                    ComparisonOperator.GreaterThanOrEqual => Expression.GreaterThanOrEqual(memberExpression, expression),
+                    ComparisonOperator.LessThan => Expression.LessThan(memberExpression, expression),
+                    ComparisonOperator.LessThanOrEqual => Expression.LessThanOrEqual(memberExpression, expression),
+                    _ => Expression.Equal(memberExpression, expression)
+                };
             }
 
             return Expression.Equal(memberExpression, expression);
+
         }
 
         private static Expression ComplexComparison<T>(
