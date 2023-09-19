@@ -2,12 +2,12 @@
 {
     public class NumericsWhereClauseTest
     {
-        private readonly IQueryable<Book> _books = PublisherData.FillMockData()
+        private readonly IQueryable<Book> _books = DataInitializer.FillMockData()
             .SelectMany(x => x.Books)
             .AsQueryable();
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_GraterThan_AuthorAge()
+        public void SmartWhere_Should_Return_Results_Grater_Than_AuthorAge_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -23,7 +23,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_GraterThanOrEqual_PublishedYear()
+        public void SmartWhere_Should_Return_Results_Grater_Than_Or_Equal_PublishedStartYear_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -39,7 +39,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_LessThanOrEqual_PublishedYear()
+        public void SmartWhere_Should_Return_Results_Less_Than_Or_Equal_PublishedEndYear_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -55,7 +55,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_GraterThanOrEqual_And_LessThanOrEqual_PublishedYear()
+        public void SmartWhere_Should_Return_Results_Grater_Than_Or_Equal_PublishedStartYear_Parameter_And_Less_Than_Or_Equal_PublishedEndYear_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -72,7 +72,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_LessThan_Price()
+        public void SmartWhere_Should_Return_Results_Less_Than_Price_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -88,7 +88,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_GreaterThanOrEqual_Price()
+        public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartPrice_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -104,7 +104,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_LessThanOrEqual_Price()
+        public void SmartWhere_Should_Return_Results_Less_Than_Or_Equal_EndPrice_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()
@@ -120,7 +120,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_GreaterThanOrEqual_And_LessThanOrEqual_Price()
+        public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartPrice_Parameter_And_Less_Than_Or_Equal_EndPrice_Parameter()
         {
             //Arrange
             NumericSearchRequest request = new()

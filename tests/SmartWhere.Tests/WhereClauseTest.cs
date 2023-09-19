@@ -2,10 +2,10 @@ namespace SmartWhere.Test
 {
     public class WhereClauseTest
     {
-        private readonly IQueryable<Publisher> _publishers = PublisherData.FillMockData();
+        private readonly IQueryable<Publisher> _publishers = DataInitializer.FillMockData();
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_PublisherId()
+        public void SmartWhere_Should_Return_Results_By_PublisherId()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -21,7 +21,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_PublisherName()
+        public void SmartWhere_Should_Return_Results_By_PublisherName()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -37,7 +37,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_PublisherId_And_Name()
+        public void SmartWhere_Should_Return_Results_By_PublisherId_And_Name()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -54,7 +54,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_AuthorName()
+        public void SmartWhere_Should_Return_Results_By_AuthorName()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -70,7 +70,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_BookName()
+        public void SmartWhere_Should_Return_Results_By_BookName()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -86,7 +86,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_BookName_And_AuthorName()
+        public void SmartWhere_Should_Return_Results_By_BookName_And_AuthorName()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -103,7 +103,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_BookPublishedYear()
+        public void SmartWhere_Should_Return_Results_By_BookPublishedYear()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -120,7 +120,7 @@ namespace SmartWhere.Test
 
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_AuthorAge()
+        public void SmartWhere_Should_Return_Results_By_AuthorAge()
         {
             //Arrange
             PublisherSearchRequest request = new()
@@ -136,7 +136,7 @@ namespace SmartWhere.Test
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Publishers_By_AuthorCountry()
+        public void SmartWhere_Should_Return_Results_By_AuthorCountry()
         {
             //Arrange
             PublisherSearchRequest request = new()

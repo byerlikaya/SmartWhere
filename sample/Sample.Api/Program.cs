@@ -1,5 +1,5 @@
+using Sample.Api;
 using Sample.Api.ApplicationSpecific.Contexts;
-using Sample.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MemoryContext>();
+builder.Services.AddDbContext<MemoryDbContext>();
 
 var app = builder.Build();
 
@@ -21,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-PublisherData.FillMockData();
+PublisherData.FillDummyData();
 
 app.UseHttpsRedirection();
 

@@ -2,12 +2,10 @@
 {
     public class StringsWhereClauseTest
     {
-        private readonly IQueryable<Book> _books = PublisherData.FillMockData()
-            .SelectMany(x => x.Books)
-            .AsQueryable();
+        private readonly IQueryable<Book> _books = DataInitializer.FillMockData().SelectMany(x => x.Books).AsQueryable();
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_Starting_With_Name()
+        public void SmartWhere_Should_Return_Results_Starting_With_Name_Parameter()
         {
             //Arrange
             BookSearchRequest request = new()
@@ -28,7 +26,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_Ending_AuthorName()
+        public void SmartWhere_Should_Return_Results_Ending_With_AuthorName_Parameter()
         {
             //Arrange
             BookSearchRequest request = new()
@@ -49,7 +47,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Books_Starting_Name_Ending_AuthorName()
+        public void SmartWhere_Should_Return_Results_Starting_With_Name_And_Ending_With_AuthorName()
         {
             //Arrange
             BookSearchRequest request = new()

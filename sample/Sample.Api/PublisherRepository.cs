@@ -1,7 +1,7 @@
 ﻿using Sample.Api.ApplicationSpecific.Contexts;
 using Sample.Common.Entity;
 
-namespace Sample.Api.ApplicationSpecific
+namespace Sample.Api
 {
     public class PublisherRepository
     {
