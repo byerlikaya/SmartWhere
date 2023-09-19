@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartWhere.Sample.Common.Entity;
+using Sample.Common.Entity;
 
-namespace SmartWhere.Sample.Api.ApplicationSpecific.Contexts
+namespace Sample.Api.ApplicationSpecific.Contexts
 {
     public class MemoryContext : DbContext
     {

@@ -1,5 +1,5 @@
-using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
-using SmartWhere.Sample.Common;
+using Sample.Api.ApplicationSpecific.Contexts;
+using Sample.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 

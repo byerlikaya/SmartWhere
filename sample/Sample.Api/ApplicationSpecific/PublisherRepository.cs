@@ -1,7 +1,7 @@
-﻿using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
-using SmartWhere.Sample.Common.Entity;
+﻿using Sample.Api.ApplicationSpecific.Contexts;
+using Sample.Common.Entity;
 
-namespace SmartWhere.Sample.Api.ApplicationSpecific
+namespace Sample.Api.ApplicationSpecific
 {
     public class PublisherRepository
     {

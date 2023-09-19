@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartWhere\SmartWhere.csproj" />
+    <ProjectReference Include="..\..\src\SmartWhere\SmartWhere.csproj" />
   </ItemGroup>
 
 </Project>

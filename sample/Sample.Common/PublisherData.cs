@@ -1,6 +1,6 @@
-﻿using SmartWhere.Sample.Common.Entity;
+﻿using Sample.Common.Entity;
 
-namespace SmartWhere.Sample.Common
+namespace Sample.Common
 {
     public static class PublisherData
     {

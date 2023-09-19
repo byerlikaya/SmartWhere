@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Sample.Common.Entity
+﻿namespace Sample.Common.Entity
 {
     public class Book
     {

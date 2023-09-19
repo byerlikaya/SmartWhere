@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
-using SmartWhere.Sample.Common.Dto;
-using SmartWhere.Sample.Common.Entity;
+using Sample.Api.ApplicationSpecific.Contexts;
+using Sample.Common.Dto;
+using Sample.Common.Entity;
+using SmartWhere;
 
-namespace SmartWhere.Sample.Api.Controllers
+namespace Sample.Api.Controllers
 {
     [ApiController]
     public class PublisherController : ControllerBase

@@ -1,7 +1,7 @@
 ﻿using SmartWhere.Attributes;
 using SmartWhere.Interfaces;
 
-namespace SmartWhere.Sample.Common.Dto
+namespace Sample.Common.Dto
 {
     public class BookSearchRequest : IWhereClause
     {
