@@ -77,7 +77,7 @@ namespace Sample.Common
 
         private static readonly List<Publisher> Publishers = new();
 
-        public static IQueryable<Publisher> FillDummyData()
+        public static IQueryable<Publisher> FillMockData()
         {
 
             if (Publishers.Any())

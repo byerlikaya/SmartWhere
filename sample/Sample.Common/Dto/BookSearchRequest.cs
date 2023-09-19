@@ -9,7 +9,8 @@ namespace Sample.Common.Dto
 
         public int Max { get; set; }
 
+
         [WhereClauseClass]
-        public BookSearchDto Data { get; set; }
+        public BookSearchDto SearchData { get; set; }
     }
 }

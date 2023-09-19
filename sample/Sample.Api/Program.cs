@@ -21,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-PublisherData.FillDummyData();
+PublisherData.FillMockData();
 
 app.UseHttpsRedirection();
 

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Sample.Api.ApplicationSpecific.Contexts;
 using Sample.Common.Dto;
-using Sample.Common.Entity;
 using SmartWhere;
 
 namespace Sample.Api.Controllers
@@ -20,7 +19,7 @@ namespace Sample.Api.Controllers
         [HttpPost("/publishers")]
         public IActionResult GetPublishers(PublisherSearchRequest request)
         {
-            var result = _context.Set<Publisher>()
+            var result = _context.Publishers
                 .Include(x => x.Books)
                 .ThenInclude(x => x.Author)
                 .Where(request)
@@ -32,7 +31,7 @@ namespace Sample.Api.Controllers
         [HttpPost("/books")]
         public IActionResult GetBooks(BookSearchRequest request)
         {
-            var result = _context.Set<Book>()
+            var result = _context.Books
                 .Include(x => x.Author)
                 .Where(request)
                 .Skip(request.Start)

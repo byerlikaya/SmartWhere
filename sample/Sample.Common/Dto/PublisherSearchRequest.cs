@@ -23,7 +23,6 @@ namespace Sample.Common.Dto
         [WhereClause("Book.Author.Age")]
         public int? AuthorAge { get; set; }
 
-
         [WhereClause("Book.Author.Country.Name")]
         public string AuthorCountry { get; set; }
     }

@@ -2,7 +2,7 @@ namespace SmartWhere.Test
 {
     public class WhereClauseTest
     {
-        private readonly IQueryable<Publisher> _publishers = PublisherData.FillDummyData();
+        private readonly IQueryable<Publisher> _publishers = PublisherData.FillMockData();
 
         [Fact]
         public void SmartWhere_Should_Return_Publishers_By_PublisherId()
