@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartWhere.Publisher.Common\SmartWhere.Sample.Common.csproj" />
     <ProjectReference Include="..\SmartWhere.Publisher.DomainObject\SmartWhere.Sample.Common.csproj" />
     <ProjectReference Include="..\SmartWhere\SmartWhere.csproj" />
   </ItemGroup>
