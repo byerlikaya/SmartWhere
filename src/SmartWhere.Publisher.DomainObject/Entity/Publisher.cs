@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Publisher.DomainObject
+﻿namespace SmartWhere.Sample.DomainObject.Entity
 {
     public class Publisher
     {
@@ -6,6 +6,6 @@
 
         public string Name { get; set; }
 
-        public IEnumerable<Book> Books { get; set; }
+        public List<Book> Books { get; set; }
     }
 }

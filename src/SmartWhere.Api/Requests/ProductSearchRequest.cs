@@ -1,18 +1,19 @@
 ﻿using SmartWhere.Attributes;
 using SmartWhere.Enums;
 using SmartWhere.Interfaces;
+using SmartWhere.Northwind.DomainObject;
 
 namespace SmartWhere.Sample.Api.Requests
 {
     public class ProductSearchRequest : IWhereClause
     {
-        [NumericsWhereCaluse("ProductID", ComparisonOperator.Equal)]
+        [NumericsWhereCaluse(nameof(Product.ProductID), ComparisonOperator.Equal)]
         public int? Id { get; set; }
 
-        [WhereClause("Category.CategoryID")]
+        [WhereClause($"{nameof(Category)}.{nameof(Category.CategoryID)}")]
         public int? CategoryId { get; set; }
 
-        [StringsWhereClause("ProductName", StringMethod.Contains)]
+        [StringsWhereClause(nameof(Product.ProductName), StringMethod.Contains)]
         public string Name { get; set; }
 
         [NumericsWhereCaluse(ComparisonOperator.GreaterThan)]

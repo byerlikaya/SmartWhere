@@ -1,86 +1,75 @@
-﻿using SmartWhere.Publisher.Entities;
+﻿using SmartWhere.Sample.DomainObject.Entity;
 
 namespace SmartWhere.Sample.Api.ApplicationSpecific
 {
     public static class PublisherData
     {
+        private static readonly List<string> Countries = new()
+        {
+            "Germany",
+            "England",
+            "USA",
+            "Turkey",
+            "China",
+            "India",
+            "Cyprus",
+            "Greece",
+            "Bulgaria",
+            "Italy",
+            "France",
+            "Spain"
+        };
         public static void FillDummyData()
         {
             PublisherRepository publisherRepository = new();
-            publisherRepository.AddRange(new List<Publisher.Entities.Publisher>
+
+            List<Publisher> publishers = new();
+
+            var index = 1;
+
+            for (var i = 1; i <= 5; i++)
             {
-                new Publisher.Entities.Publisher
+                Publisher publisher = new()
                 {
-                    Id = 1,
-                    Name = "Publisher 1",
-                    Books = new List<Book>
+                    Id = i,
+                    Name = $"Publisher {i}",
+                    Books = new List<Book>()
+                };
+
+                for (var j = 1; j <= 5; j++)
+                {
+                    var birthday = DateTime.Now.AddYears(new Random().Next(j, j * 3) * -1);
+
+                    Book book = new()
                     {
-                        new Book
+                        Id = index,
+                        Name = $"Book {index}",
+                        Price = 10.5 * j,
+                        PublishedYear = DateTime.Now.AddYears(new Random().Next(j, j * 10) * -1).Year,
+                        Author = new Author
                         {
-                            Id = 1,
-                            Name = "Book 1",
-                            Author = new Author
+                            Id = index,
+                            Name = $"Name {index}",
+                            Surname = $"Surname {index}",
+                            Birthday = birthday,
+                            Age = DateTime.Now.Year - birthday.Year,
+                            Country = new Country
                             {
-                                Id = 1,
-                                Name = "Author 1",
-                                Surname = "Author 1"
-                            }
-                        },
-                        new Book
-                        {
-                            Id = 2,
-                            Name = "Book 2",
-                            Author = new Author
-                            {
-                                Id = 2,
-                                Name = "Author 2",
-                                Surname = "Author 2"
+                                Id = index,
+                                Name = Countries[new Random().Next(0, Countries.Count - 1)]
                             }
                         }
-                    }
-                },
-                new Publisher.Entities.Publisher
-                {
-                    Id = 2,
-                    Name = "Publisher 2",
-                    Books = new List<Book>
-                    {
-                        new Book
-                        {
-                            Id = 3,
-                            Name = "Book 3",
-                            Author = new Author
-                            {
-                                Id =3,
-                                Name = "Author 3",
-                                Surname = "Author 3"
-                            }
-                        },
-                        new Book
-                        {
-                            Id = 4,
-                            Name = "Book 4",
-                            Author = new Author
-                            {
-                                Id = 4,
-                                Name = "Author 4",
-                                Surname = "Author 4"
-                            }
-                        },
-                        new Book
-                        {
-                            Id = 5,
-                            Name = "Book 5",
-                            Author = new Author
-                            {
-                                Id = 5,
-                                Name = "Author 5",
-                                Surname = "Author 5"
-                            }
-                        }
-                    }
+                    };
+
+                    publisher.Books.Add(book);
+
+                    index++;
                 }
-            });
+
+                publishers.Add(publisher);
+            }
+
+            publisherRepository.AddRange(publishers);
         }
     }
 }

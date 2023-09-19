@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartWhere.Sample.Api.ApplicationSpecific;
+using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
 using SmartWhere.Sample.Api.Requests;
 
 namespace SmartWhere.Sample.Api.Controllers

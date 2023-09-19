@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Publisher.DomainObject
+﻿namespace SmartWhere.Sample.DomainObject.Entity
 {
     public class Country
     {

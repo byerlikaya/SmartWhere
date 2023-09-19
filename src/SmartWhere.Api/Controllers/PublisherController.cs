@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWhere.Publisher.Entities;
-using SmartWhere.Sample.Api.ApplicationSpecific;
-using SmartWhere.Sample.Api.Requests;
+using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
+using SmartWhere.Sample.DomainObject.Dto;
+using SmartWhere.Sample.DomainObject.Entity;
 
 namespace SmartWhere.Sample.Api.Controllers
 {
@@ -19,7 +19,7 @@ namespace SmartWhere.Sample.Api.Controllers
         [HttpPost("/publishers")]
         public IActionResult GetPublishers(PublisherSearchRequest request)
         {
-            var result = _context.Set<Publisher.Entities.Publisher>()
+            var result = _context.Set<Publisher>()
                 .Include(x => x.Books)
                 .ThenInclude(x => x.Author)
                 .Where(request)

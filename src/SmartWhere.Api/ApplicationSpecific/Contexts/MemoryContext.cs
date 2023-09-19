@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using SmartWhere.Sample.DomainObject.Entity;
 
-namespace SmartWhere.Sample.Api.ApplicationSpecific
+namespace SmartWhere.Sample.Api.ApplicationSpecific.Contexts
 {
     public class MemoryContext : DbContext
     {
-        public DbSet<Publisher.Entities.Publisher> Publishers { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+        public DbSet<Book> Books { get; set; }
+
+        public DbSet<Author> Authors { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

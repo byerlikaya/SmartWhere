@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartWhere.Northwind.Entities;
+using SmartWhere.Northwind.DomainObject;
 
-namespace SmartWhere.Sample.Api.ApplicationSpecific
+namespace SmartWhere.Sample.Api.ApplicationSpecific.Contexts
 {
     public class MSSqlContext : DbContext
     {
