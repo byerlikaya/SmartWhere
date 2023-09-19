@@ -160,21 +160,15 @@ namespace SmartWhere
 
             foreach (var (propertyInfo, propertyType) in properties)
             {
+
                 if (!propertyType.Namespace!.StartsWith("System") || propertyInfo.PropertyType!.IsEnumarableType())
                 {
+                    currentType = currentType.IsNull()
+                        ? propertyInfo.PropertyType
+                        : currentType;
 
                     lastEnumerableMember = SetLastEnumerableMember(lastEnumerableMember, lastMember, baseParameter, propertyInfo.Name);
 
-                    lastMember = SetLastMember(
-                        lastMember,
-                        baseParameter,
-                        propertyInfo,
-                        currentType);
-
-                    currentType = propertyInfo.PropertyType;
-                }
-                else
-                {
                     var type = SetType(currentType, properties[index].propertyType);
 
                     parameterExpression = SetParameterExpression(
@@ -182,6 +176,17 @@ namespace SmartWhere
                         type,
                         parameterExpression);
 
+                    lastMember = SetLastMember(
+                        lastMember,
+                        baseParameter,
+                        propertyInfo,
+                        currentType,
+                        parameterExpression);
+
+                    currentType = propertyInfo.PropertyType;
+                }
+                else
+                {
                     var memberExpression = SetMemberExpression(
                         currentType,
                         parameterExpression,
@@ -223,22 +228,17 @@ namespace SmartWhere
             MemberExpression lastMember,
             Expression baseParameter,
             MemberInfo propertyInfo,
-            Type currentType)
+            Type currentType,
+            Expression parameterExpression)
         {
             if (lastMember.IsNull())
             {
-                lastMember = Expression.Property(baseParameter, propertyInfo.Name);
-            }
-            else
-            {
-                var type = currentType!.GetGenericArguments().FirstOrDefault();
-
-                lastMember = currentType.IsEnumarableType()
-                    ? Expression.MakeMemberAccess(Expression.Parameter(type!, type!.Name.ToLower()), propertyInfo)
-                    : Expression.Property(lastMember!, propertyInfo.Name);
+                return Expression.Property(baseParameter, propertyInfo.Name);
             }
 
-            return lastMember;
+            return currentType.IsEnumarableType()
+                ? Expression.MakeMemberAccess(parameterExpression, propertyInfo)
+                : Expression.Property(lastMember!, propertyInfo.Name);
         }
 
         private static Type SetType(
@@ -261,7 +261,6 @@ namespace SmartWhere
             return parameterExpression.IsNull()
                 ? Expression.Parameter(type, type.Name.ToLower())
                 : parameterExpression;
-
         }
 
         private static MemberExpression SetMemberExpression(
