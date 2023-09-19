@@ -25,6 +25,6 @@ namespace SmartWhere.Sample.Common.Dto
 
 
         [WhereClause("Book.Author.Country.Name")]
-        public string AuthorCounty { get; set; }
+        public string AuthorCountry { get; set; }
     }
 }
