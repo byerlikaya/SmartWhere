@@ -1,5 +1,5 @@
-using SmartWhere.Sample.Api.ApplicationSpecific;
 using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
+using SmartWhere.Sample.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MSSqlContext>();
 builder.Services.AddDbContext<MemoryContext>();
 
 var app = builder.Build();

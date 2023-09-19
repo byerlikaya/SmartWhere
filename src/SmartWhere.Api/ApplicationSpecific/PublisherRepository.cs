@@ -1,5 +1,5 @@
 ﻿using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
-using SmartWhere.Sample.DomainObject.Entity;
+using SmartWhere.Sample.Common.Entity;
 
 namespace SmartWhere.Sample.Api.ApplicationSpecific
 {

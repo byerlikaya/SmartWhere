@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWhere.Sample.Api.ApplicationSpecific.Contexts;
-using SmartWhere.Sample.DomainObject.Dto;
-using SmartWhere.Sample.DomainObject.Entity;
+using SmartWhere.Sample.Common.Dto;
+using SmartWhere.Sample.Common.Entity;
 
 namespace SmartWhere.Sample.Api.Controllers
 {

@@ -14,9 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartWhere.Nortwind.DomainObject\SmartWhere.Northwind.DomainObject.csproj" />
-    <ProjectReference Include="..\SmartWhere.Publisher.DomainObject\SmartWhere.Sample.DomainObject.csproj" />
+    <ProjectReference Include="..\SmartWhere.Publisher.DomainObject\SmartWhere.Sample.Common.csproj" />
     <ProjectReference Include="..\SmartWhere\SmartWhere.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Requests\" />
   </ItemGroup>
 
 </Project>

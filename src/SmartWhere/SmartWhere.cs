@@ -312,7 +312,16 @@ namespace SmartWhere
 
             if (Types.Contains(propertyType))
             {
-                return Expression.Equal(memberExpression, Expression.Constant(propertyValue));
+                if (lastEnumerableMember.IsNotNull() && lastEnumerableMember.Type.IsEnumarableType())
+                {
+                    return Expression.Call(typeof(Enumerable),
+                        "Any",
+                        new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
+                        lastEnumerableMember,
+                        Expression.Lambda(methodExpression!, parameterExpression));
+                }
+
+                return SetMethodExpressionByType(memberExpression, whereClauseAttribute, Expression.Constant(propertyValue));
             }
 
             return Expression.Equal(memberExpression, Expression.Constant(propertyValue));

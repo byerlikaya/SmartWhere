@@ -1,9 +1,9 @@
 ﻿using SmartWhere.Attributes;
 using SmartWhere.Enums;
 using SmartWhere.Interfaces;
-using SmartWhere.Sample.DomainObject.Entity;
+using SmartWhere.Sample.Common.Entity;
 
-namespace SmartWhere.Sample.DomainObject.Dto
+namespace SmartWhere.Sample.Common.Dto
 {
     public class PublisherSearchRequest : IWhereClause
     {
