@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartWhere.Northwind.Entities
+namespace SmartWhere.Northwind.DomainObject
 {
     public class Category
     {

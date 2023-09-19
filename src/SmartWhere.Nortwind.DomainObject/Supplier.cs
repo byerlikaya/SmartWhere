@@ -1,8 +1,8 @@
-﻿namespace SmartWhere.Northwind.Entities
+﻿namespace SmartWhere.Northwind.DomainObject
 {
-    public class Customer
+    public class Supplier
     {
-        public string CustomerID { get; set; }
+        public int SupplierID { get; set; }
 
         public string CompanyName { get; set; }
 
@@ -23,6 +23,8 @@
         public string Phone { get; set; }
 
         public string Fax { get; set; }
+
+        public string HomePage { get; set; }
 
 
     }

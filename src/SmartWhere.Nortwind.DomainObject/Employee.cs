@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Northwind.Entities
+﻿namespace SmartWhere.Northwind.DomainObject
 {
     public class Employee
     {

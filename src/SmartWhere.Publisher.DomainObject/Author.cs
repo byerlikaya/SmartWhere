@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Publisher.Entities
+﻿namespace SmartWhere.Publisher.DomainObject
 {
     public class Author
     {
