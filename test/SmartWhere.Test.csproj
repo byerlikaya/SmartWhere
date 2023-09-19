@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SmartWhere.Publisher.Common\SmartWhere.Sample.Common.csproj" />
+    <ProjectReference Include="..\src\SmartWhere.Publisher.Common\SmartWhere.Sample.Common.csproj" />
   </ItemGroup>
 
 </Project>
