@@ -1,6 +1,6 @@
 ﻿namespace SmartWhere.Enums
 {
-    public enum Method
+    public enum StringMethod
     {
         Contains = 1,
         StartsWith = 2,

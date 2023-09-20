@@ -1,4 +1,4 @@
-﻿namespace SmartWhere.Sample.Api.Entities
+﻿namespace Sample.Common.Entity
 {
     public class Country
     {

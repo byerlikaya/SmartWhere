@@ -1,17 +1,18 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWhere.Sample.Api.Entities;
-using SmartWhere.Sample.Api.Requests;
+using Sample.Api.ApplicationSpecific.Contexts;
+using Sample.Common.Dto;
+using Sample.Common.Entity;
+using SmartWhere;
 
-namespace SmartWhere.Sample.Api.Controllers
+namespace Sample.Api.Controllers
 {
-
     [ApiController]
-    public class SampleController : ControllerBase
+    public class PublisherController : ControllerBase
     {
-        private readonly ProjectDbContext _context;
+        private readonly MemoryDbContext _context;
 
-        public SampleController(ProjectDbContext context)
+        public PublisherController(MemoryDbContext context)
         {
             _context = context;
         }
@@ -31,7 +32,7 @@ namespace SmartWhere.Sample.Api.Controllers
         [HttpPost("/books")]
         public IActionResult GetBooks(BookSearchRequest request)
         {
-            var result = _context.Set<Book>()
+            var result = _context.Books
                 .Include(x => x.Author)
                 .Where(request)
                 .Skip(request.Start)

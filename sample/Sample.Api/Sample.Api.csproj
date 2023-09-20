@@ -9,11 +9,13 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartWhere\SmartWhere.csproj" />
+    <ProjectReference Include="..\..\src\SmartWhere\SmartWhere.csproj" />
+    <ProjectReference Include="..\..\sample\Sample.Common\Sample.Common.csproj" />
   </ItemGroup>
 
 </Project>

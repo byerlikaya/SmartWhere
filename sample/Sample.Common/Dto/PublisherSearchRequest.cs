@@ -1,12 +1,12 @@
 ﻿using SmartWhere.Attributes;
 using SmartWhere.Interfaces;
 
-namespace SmartWhere.Sample.Api.Requests
+namespace Sample.Common.Dto
 {
     public class PublisherSearchRequest : IWhereClause
     {
         [WhereClause(PropertyName = "Id")]
-        public int PublisherId { get; set; }
+        public int? PublisherId { get; set; }
 
         [WhereClause]
         public string Name { get; set; }
@@ -16,5 +16,14 @@ namespace SmartWhere.Sample.Api.Requests
 
         [WhereClause("Books.Author.Name")]
         public string AuthorName { get; set; }
+
+        [WhereClause("Book.PublishedYear")]
+        public int? BookPublishedYear { get; set; }
+
+        [WhereClause("Book.Author.Age")]
+        public int? AuthorAge { get; set; }
+
+        [WhereClause("Book.Author.Country.Name")]
+        public string AuthorCountry { get; set; }
     }
 }

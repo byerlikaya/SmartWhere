@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartWhere.Sample.Api.Entities;
+using Sample.Common.Entity;
 using System.Reflection;
 
-namespace SmartWhere.Sample.Api
+namespace Sample.Api.ApplicationSpecific.Contexts
 {
-    public class ProjectDbContext : DbContext
+    public class MemoryDbContext : DbContext
     {
         public DbSet<Publisher> Publishers { get; set; }
+
+        public DbSet<Book> Books { get; set; }
+
+        public DbSet<Author> Authors { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
