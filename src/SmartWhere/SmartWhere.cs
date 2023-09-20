@@ -23,6 +23,8 @@ namespace SmartWhere
             typeof(double?),
             typeof(bool),
             typeof(bool?),
+            typeof(DateTime),
+            typeof(DateTime?)
         };
 
         public static IQueryable<T> Where<T>(this IQueryable<T> source, IWhereClause whereClauseDto)
