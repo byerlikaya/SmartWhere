@@ -45,7 +45,11 @@ namespace SmartWhere
                 if (propertyValue.ValueControl())
                     continue;
 
-                comparison = GetComparison<T>(parameter, whereClauseProperty, propertyValue, comparison);
+                comparison = GetComparison<T>(
+                    parameter,
+                    whereClauseProperty,
+                    propertyValue,
+                    comparison);
             }
 
             return comparison.IsNotNull()
@@ -59,8 +63,16 @@ namespace SmartWhere
             object propertyValue,
             Expression comparison) =>
             whereClauseProperty.PropertyNameControl<T>()
-                ? BasicComparison(parameter, whereClauseProperty, propertyValue, comparison)
-                : ComplexComparison<T>(parameter, whereClauseProperty, propertyValue, comparison);
+                ? BasicComparison(
+                    parameter,
+                    whereClauseProperty,
+                    propertyValue,
+                    comparison)
+                : ComplexComparison<T>(
+                    parameter,
+                    whereClauseProperty,
+                    propertyValue,
+                    comparison);
 
         private static Expression BasicComparison(
             Expression parameter,
@@ -70,7 +82,11 @@ namespace SmartWhere
         {
             var whereClauseAttribute = whereClauseProperty.GetWhereClauseAttribute();
 
-            var methodExpression = MethodExpressionForBasicComparison(parameter, whereClauseAttribute, whereClauseProperty, propertyValue);
+            var methodExpression = MethodExpressionForBasicComparison(
+                parameter,
+                whereClauseAttribute,
+                whereClauseProperty,
+                propertyValue);
 
             return comparison.IsNull()
                 ? methodExpression
@@ -89,9 +105,15 @@ namespace SmartWhere
                 ? Expression.Property(parameter, whereClauseProperty.Name)
                 : Expression.Property(parameter, whereClauseAttribute.PropertyName);
 
-            var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
+            var expression = SetExpressionByNull(
+                whereClauseProperty,
+                propertyValue,
+                memberExpression.Type);
 
-            return SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
+            return SetMethodExpressionByType(
+                memberExpression,
+                whereClauseAttribute,
+                expression);
         }
 
         private static Expression SetExpressionByNull(
@@ -163,13 +185,18 @@ namespace SmartWhere
             foreach (var (propertyInfo, propertyType) in properties)
             {
 
-                if (!propertyType.Namespace!.StartsWith("System") || propertyInfo.PropertyType!.IsEnumarableType())
+                if (!propertyType.Namespace!.StartsWith("System") ||
+                    propertyInfo.PropertyType!.IsEnumarableType())
                 {
                     currentType = currentType.IsNull()
                         ? propertyInfo.PropertyType
                         : currentType;
 
-                    lastEnumerableMember = SetLastEnumerableMember(lastEnumerableMember, lastMember, baseParameter, propertyInfo.Name);
+                    lastEnumerableMember = SetLastEnumerableMember(
+                        lastEnumerableMember,
+                        lastMember,
+                        baseParameter,
+                        propertyInfo.Name);
 
                     var type = SetType(currentType, properties[index].propertyType);
 
@@ -191,14 +218,14 @@ namespace SmartWhere
                 {
                     var type = SetType(currentType, properties[index].propertyType);
 
-                    parameterExpression = SetParameterExpression(
-                        currentType,
-                        type,
-                        parameterExpression);
+                    var expression = SetParameterExpression(
+                         currentType,
+                         type,
+                         parameterExpression);
 
                     var memberExpression = SetMemberExpression(
                         currentType,
-                        parameterExpression,
+                        expression,
                         propertyInfo,
                         lastMember);
 
@@ -210,8 +237,17 @@ namespace SmartWhere
                         whereClauseAttribute,
                         whereClauseProperty,
                         lastMember,
-                        parameterExpression,
+                        expression,
                         lastEnumerableMember);
+
+                    if (lastEnumerableMember.IsNotNull() && lastEnumerableMember!.Type.IsEnumarableType())
+                    {
+                        methodExpression = Expression.Call(typeof(Enumerable),
+                            "Any",
+                            new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
+                            lastEnumerableMember,
+                            Expression.Lambda(methodExpression!, parameterExpression!));
+                    }
 
                     comparison = comparison.IsNull()
                         ? methodExpression
@@ -271,7 +307,6 @@ namespace SmartWhere
                 ? Expression.Parameter(type, type.Name.ToLower())
                 : parameterExpression;
         }
-
         private static MemberExpression SetMemberExpression(
             Type currentType,
             Expression parameterExpression,
