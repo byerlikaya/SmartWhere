@@ -42,7 +42,6 @@ namespace SmartWhere.Extensions
         internal static IEnumerable<(PropertyInfo propertyInfo, Type propertyType)> PropertyInfos(this Type entityType, string propertyName)
         {
             var propertiesList = new List<(PropertyInfo propertyInfo, Type propertyType)>();
-
             var entityProperties = new List<(PropertyInfo propertyInfo, Type propertyType)>();
 
             entityType.GetProperties().ToList().ForEach(x =>
@@ -55,14 +54,16 @@ namespace SmartWhere.Extensions
             var properties = propertyName.Split('.');
 
             var index = -1;
+            var findedMainPropertyInEntity = false;
 
             foreach (var property in properties)
             {
                 var entityPropertInfo = entityProperties.FirstOrDefault(x => string.Equals(x.propertyType.Name, property, StringComparison.OrdinalIgnoreCase));
 
-                if (entityPropertInfo.propertyType.IsNotNull())
+                if (entityPropertInfo.propertyType.IsNotNull() && !findedMainPropertyInEntity)
                 {
                     propertiesList.Add((entityPropertInfo.propertyInfo, entityPropertInfo.propertyType));
+                    findedMainPropertyInEntity = true;
                     index++;
                 }
                 else
