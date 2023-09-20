@@ -23,5 +23,14 @@ namespace Sample.Common.Dto
 
         [NumericsWhereCaluse("Price", ComparisonOperator.LessThanOrEqual)]
         public decimal? EndPrice { get; set; }
+
+        [NumericsWhereCaluse("CreatedDate", ComparisonOperator.LessThan)]
+        public DateTime? BookCreatedDate { get; set; }
+
+        [NumericsWhereCaluse("CreatedDate", ComparisonOperator.GreaterThanOrEqual)]
+        public DateTime? StartCreatedDate { get; set; }
+
+        [NumericsWhereCaluse("CreatedDate", ComparisonOperator.LessThanOrEqual)]
+        public DateTime? EndCreatedDate { get; set; }
     }
 }

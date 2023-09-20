@@ -135,5 +135,70 @@
             //Assert
             Assert.True(result.Any(x => x.Price >= 140 && x.Price <= 300));
         }
+
+        [Fact]
+        public void SmartWhere_Should_Return_Results_Less_Than_BookCreatedDate_Parameter()
+        {
+            //Arrange
+            NumericSearchRequest request = new()
+            {
+                BookCreatedDate = DateTime.Now.AddDays(-3)
+            };
+
+            //Act
+            var result = _books.Where(request);
+
+            //Assert
+            Assert.True(result.Any(x => x.CreatedDate <= DateTime.Now.AddDays(-3)));
+        }
+
+        [Fact]
+        public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartCreatedDate_Parameter()
+        {
+            //Arrange
+            NumericSearchRequest request = new()
+            {
+                StartCreatedDate = DateTime.Now.AddDays(-15)
+            };
+
+            //Act
+            var result = _books.Where(request);
+
+            //Assert
+            Assert.True(result.Any(x => x.CreatedDate >= DateTime.Now.AddDays(-15)));
+        }
+
+        [Fact]
+        public void SmartWhere_Should_Return_Results_Less_Than_Or_Equal_EndCreatedDate_Parameter()
+        {
+            //Arrange
+            NumericSearchRequest request = new()
+            {
+                EndCreatedDate = DateTime.Now.AddDays(-5)
+            };
+
+            //Act
+            var result = _books.Where(request);
+
+            //Assert
+            Assert.True(result.Any(x => x.CreatedDate <= DateTime.Now.AddDays(-5)));
+        }
+
+        [Fact]
+        public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartCreatedDate_Parameter_And_Less_Than_Or_Equal_EndCreatedDate_Parameter()
+        {
+            //Arrange
+            NumericSearchRequest request = new()
+            {
+                StartCreatedDate = DateTime.Now.AddDays(-8),
+                EndCreatedDate = DateTime.Now.AddDays(-2)
+            };
+
+            //Act
+            var result = _books.Where(request);
+
+            //Assert
+            Assert.True(result.Any(x => x.CreatedDate >= DateTime.Now.AddDays(-8) && x.CreatedDate <= DateTime.Now.AddDays(-2)));
+        }
     }
 }

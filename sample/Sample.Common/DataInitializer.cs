@@ -103,6 +103,7 @@ namespace Sample.Common
                         Name = publisherBook.bookName,
                         Price = new Random().NextDouble() * (323.2 - 10.5) + 10.5,
                         PublishedYear = publisherBook.publishedYear,
+                        CreatedDate = DateTime.Now.AddDays(-index),
                         Author = new Author
                         {
                             Id = index,

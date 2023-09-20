@@ -10,6 +10,8 @@
 
         public double Price { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
         public Author Author { get; set; }
 
     }
