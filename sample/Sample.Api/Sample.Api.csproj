@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\sample\Sample.Common\Sample.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Requests\" />
-  </ItemGroup>
-
 </Project>

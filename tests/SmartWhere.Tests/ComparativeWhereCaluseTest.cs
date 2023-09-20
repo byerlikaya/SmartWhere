@@ -1,6 +1,6 @@
 ﻿namespace SmartWhere.Test
 {
-    public class NumericsWhereClauseTest
+    public class ComparativeWhereCaluseTest
     {
         private readonly IQueryable<Book> _books = DataInitializer.FillMockData()
             .SelectMany(x => x.Books)
@@ -10,7 +10,7 @@
         public void SmartWhere_Should_Return_Results_Grater_Than_AuthorAge_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 AuthorAge = 20
             };
@@ -26,7 +26,7 @@
         public void SmartWhere_Should_Return_Results_Grater_Than_Or_Equal_PublishedStartYear_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 PublishedStartYear = 1990
             };
@@ -42,7 +42,7 @@
         public void SmartWhere_Should_Return_Results_Less_Than_Or_Equal_PublishedEndYear_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 PublishedEndYear = 2000
             };
@@ -58,7 +58,7 @@
         public void SmartWhere_Should_Return_Results_Grater_Than_Or_Equal_PublishedStartYear_Parameter_And_Less_Than_Or_Equal_PublishedEndYear_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 PublishedStartYear = 1980,
                 PublishedEndYear = 1999
@@ -75,7 +75,7 @@
         public void SmartWhere_Should_Return_Results_Less_Than_Price_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 Price = 120
             };
@@ -91,7 +91,7 @@
         public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartPrice_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 StartPrice = 120
             };
@@ -107,7 +107,7 @@
         public void SmartWhere_Should_Return_Results_Less_Than_Or_Equal_EndPrice_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 EndPrice = 230
             };
@@ -123,7 +123,7 @@
         public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartPrice_Parameter_And_Less_Than_Or_Equal_EndPrice_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 StartPrice = 140,
                 EndPrice = 300
@@ -140,7 +140,7 @@
         public void SmartWhere_Should_Return_Results_Less_Than_BookCreatedDate_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 BookCreatedDate = DateTime.Now.AddDays(-3)
             };
@@ -156,7 +156,7 @@
         public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartCreatedDate_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 StartCreatedDate = DateTime.Now.AddDays(-15)
             };
@@ -172,7 +172,7 @@
         public void SmartWhere_Should_Return_Results_Less_Than_Or_Equal_EndCreatedDate_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 EndCreatedDate = DateTime.Now.AddDays(-5)
             };
@@ -188,7 +188,7 @@
         public void SmartWhere_Should_Return_Results_Greater_Than_Or_Equal_StartCreatedDate_Parameter_And_Less_Than_Or_Equal_EndCreatedDate_Parameter()
         {
             //Arrange
-            NumericSearchRequest request = new()
+            ComparativeSearchRequest request = new()
             {
                 StartCreatedDate = DateTime.Now.AddDays(-8),
                 EndCreatedDate = DateTime.Now.AddDays(-2)

@@ -6,10 +6,10 @@ namespace Sample.Common.Dto;
 
 public class BookSearchDto : IWhereClause
 {
-    [StringsWhereClause(StringMethod.StartsWith)]
+    [TextsWhereClause(StringMethod.StartsWith)]
     public string Name { get; set; }
 
-    [StringsWhereClause("Author.Name", StringMethod.EndsWith)]
+    [TextsWhereClause("Author.Name", StringMethod.EndsWith)]
     public string AuthorName { get; set; }
 
 }
