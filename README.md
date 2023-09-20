@@ -7,6 +7,8 @@
 
 **SmartWhere** is a method that aims to make the `Queryable.Where` method smarter and is based on the foundations of .NET Core.
 
+I would be very happy if you could star ⭐ the project.
+
 #### Quick Start
 The usage of **SmartWhere** is quite simple.
 
@@ -44,7 +46,7 @@ public class PublisherSearchRequest : IWhereClause
 
 ```csharp
  [HttpPost]
- public IActionResult GetPublisher(PublisherSearchRequest request)
+ public IActionResult GetPublishers(PublisherSearchRequest request)
  {
      var result = _context.Set<Publisher>()
          .Include(x => x.Books)
@@ -56,4 +58,4 @@ public class PublisherSearchRequest : IWhereClause
  }
 ```
 
-Be sure to check out the [Wiki page](https://github.com/byerlikaya/SmartWhere/wiki) for more details
+Be sure to check out the [Wiki page](https://github.com/byerlikaya/SmartWhere/wiki) for more details. ⭐
