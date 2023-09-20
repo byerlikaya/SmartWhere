@@ -4,12 +4,12 @@ namespace SmartWhere.Attributes
 {
     public class TextualWhereClauseAttribute : WhereClauseAttribute
     {
-        public StringMethod Method { get; set; }
+        public StringMethod StringMethod { get; set; }
 
         public TextualWhereClauseAttribute(StringMethod method, LogicalOperator logicalOperator = LogicalOperator.AND)
-            : base(logicalOperator) => Method = method;
+            : base(logicalOperator) => StringMethod = method;
 
         public TextualWhereClauseAttribute(string propertyName, StringMethod method, LogicalOperator logicalOperator = LogicalOperator.AND)
-            : base(propertyName, logicalOperator) => Method = method;
+            : base(propertyName, logicalOperator) => StringMethod = method;
     }
 }
