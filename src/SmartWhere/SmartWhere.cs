@@ -189,6 +189,13 @@ namespace SmartWhere
                 }
                 else
                 {
+                    var type = SetType(currentType, properties[index].propertyType);
+
+                    parameterExpression = SetParameterExpression(
+                        currentType,
+                        type,
+                        parameterExpression);
+
                     var memberExpression = SetMemberExpression(
                         currentType,
                         parameterExpression,
