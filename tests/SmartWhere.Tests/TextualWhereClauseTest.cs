@@ -1,6 +1,6 @@
 ﻿namespace SmartWhere.Test
 {
-    public class TextsWhereClauseTest
+    public class TextualWhereClauseTest
     {
         private readonly IQueryable<Book> _books = DataInitializer.FillMockData().SelectMany(x => x.Books).AsQueryable();
 

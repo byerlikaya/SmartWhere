@@ -11,7 +11,7 @@ namespace SmartWhere.Extensions
         internal static WhereClauseClassAttribute GetWhereClauseClassAttribute(this MemberInfo memberInfo) =>
             (WhereClauseClassAttribute)memberInfo.GetCustomAttribute(typeof(WhereClauseClassAttribute), false);
 
-        internal static MethodInfo MethodInfo(this TextsWhereClauseAttribute stringsWhereClauseAttribute) =>
+        internal static MethodInfo MethodInfo(this TextualWhereClauseAttribute stringsWhereClauseAttribute) =>
             typeof(string).GetMethod(stringsWhereClauseAttribute.Method.ToString(), new[] { typeof(string) });
     }
 }

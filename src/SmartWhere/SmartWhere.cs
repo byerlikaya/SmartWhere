@@ -138,7 +138,7 @@ namespace SmartWhere
             if (memberExpression.Type == typeof(string))
             {
                 if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
-                    return Expression.Call(memberExpression, ((TextsWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
+                    return Expression.Call(memberExpression, ((TextualWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
 
                 return Expression.Equal(memberExpression, expression);
             }
