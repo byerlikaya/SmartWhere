@@ -254,7 +254,9 @@ namespace SmartWhere
 
                     comparison = comparison.IsNull()
                         ? methodExpression
-                        : Expression.And(comparison!, methodExpression!);
+                        : whereClauseAttribute.LogicalOperator == LogicalOperator.AND
+                            ? Expression.And(comparison, methodExpression!)
+                            : Expression.Or(comparison, methodExpression!);
 
                     index++;
                 }
