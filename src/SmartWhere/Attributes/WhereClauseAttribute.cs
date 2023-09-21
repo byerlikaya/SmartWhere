@@ -1,4 +1,5 @@
 ﻿using SmartWhere.Enums;
+using System;
 
 namespace SmartWhere.Attributes
 {
