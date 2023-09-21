@@ -9,9 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Title>SmartWhere</Title>
     <Description>It intelligently filters a sequence of items in a simple and practical way.</Description>
     <Copyright>Copyright (c) 2023 Barış Yerlikaya</Copyright>
@@ -20,6 +18,7 @@
     <PackageTags>filter filtering where whereclause smartwhere netcore smart</PackageTags>
     <PackageProjectUrl>https://github.com/byerlikaya/SmartWhere#smartwhere</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
