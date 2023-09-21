@@ -30,6 +30,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Pack
-      run: dotnet pack -c Release -o packages
+      run: dotnet pack ./src/SmartWhere/SmartWhere.csproj -c Release -o packages
     - name: Github Package
       run: dotnet nuget push ./packages/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_AUTH_TOKEN }}
