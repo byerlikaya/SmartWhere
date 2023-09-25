@@ -145,24 +145,16 @@ namespace SmartWhere
 
                 var textualWhereClause = (TextualWhereClauseAttribute)whereClauseAttribute;
 
-                switch (textualWhereClause.StringMethod)
+                return textualWhereClause.StringMethod switch
                 {
-                    case StringMethod.Contains:
-                    case StringMethod.StartsWith:
-                    case StringMethod.EndsWith:
-                        return Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression);
-                    case StringMethod.NotContains:
-                        textualWhereClause.StringMethod = StringMethod.Contains;
-                        return Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression));
-                    case StringMethod.NotStartsWith:
-                        textualWhereClause.StringMethod = StringMethod.StartsWith;
-                        return Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression));
-                    case StringMethod.NotEndsWith:
-                        textualWhereClause.StringMethod = StringMethod.EndsWith;
-                        return Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression));
-                    default:
-                        return Expression.Equal(memberExpression, expression);
-                }
+                    StringMethod.Contains => Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression),
+                    StringMethod.StartsWith => Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression),
+                    StringMethod.EndsWith => Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression),
+                    StringMethod.NotContains => Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression)),
+                    StringMethod.NotStartsWith => Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression)),
+                    StringMethod.NotEndsWith => Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression)),
+                    _ => Expression.Equal(memberExpression, expression)
+                };
             }
 
             if (!Types.Contains(memberExpression.Type))

@@ -58,7 +58,7 @@
         }
 
         [Fact]
-        public void SmartWhere_Should_Return_Results_Not_Starting_With_Name_Parameter()
+        public void SmartWhere_Should_Return_Results_Not_Starting_With_AuthorName_Parameter()
         {
             //Arrange
             TextualSearchRequest request = new()
@@ -92,6 +92,22 @@
 
             //Assert
             Assert.True(result.Any(x => x.Author.Name.EndsWith("Camus")));
+        }
+
+        [Fact]
+        public void SmartWhere_Should_Return_Results_Not_Ending_With_CountryName_Parameter()
+        {
+            //Arrange
+            TextualSearchRequest request = new()
+            {
+                CountryName = "ta"
+            };
+
+            //Act
+            var result = _books.Where(request);
+
+            //Assert
+            Assert.True(result.Any(x => !x.Author.Country.Name.EndsWith("ta")));
         }
 
         [Fact]
