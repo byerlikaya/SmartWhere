@@ -2,8 +2,11 @@
 {
     public enum StringMethod
     {
-        Contains = 1,
-        StartsWith = 2,
-        EndsWith = 3
+        Contains,
+        NotContains,
+        StartsWith,
+        NotStartsWith,
+        EndsWith,
+        NotEndsWith
     }
 }

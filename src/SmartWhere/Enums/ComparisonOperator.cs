@@ -5,8 +5,12 @@
         Equal,
         NotEqual,
         GreaterThan,
+        NotGreaterThan,
         GreaterThanOrEqual,
+        NotGreaterThanOrEqual,
         LessThan,
-        LessThanOrEqual
+        NotLessThan,
+        LessThanOrEqual,
+        NotLessThanOrEqual
     }
 }
