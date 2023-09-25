@@ -108,7 +108,7 @@ namespace SmartWhere
                 ? Expression.Property(parameter, whereClauseProperty.Name)
                 : Expression.Property(parameter, whereClauseAttribute.PropertyName);
 
-            var expression = SetExpressionByNull(
+            var expression = SetExpressionByNullableType(
                 whereClauseProperty,
                 propertyValue,
                 memberExpression.Type);
@@ -119,7 +119,7 @@ namespace SmartWhere
                 expression);
         }
 
-        private static Expression SetExpressionByNull(
+        private static Expression SetExpressionByNullableType(
             PropertyInfo whereClauseProperty,
             object propertyValue,
             Type memberExpressionType)
@@ -140,10 +140,29 @@ namespace SmartWhere
 
             if (memberExpression.Type == typeof(string))
             {
-                if (whereClauseAttribute.GetType().BaseType == typeof(WhereClauseAttribute))
-                    return Expression.Call(memberExpression, ((TextualWhereClauseAttribute)whereClauseAttribute).MethodInfo(), expression);
+                if (whereClauseAttribute.GetType().BaseType != typeof(WhereClauseAttribute))
+                    return Expression.Equal(memberExpression, expression);
 
-                return Expression.Equal(memberExpression, expression);
+                var textualWhereClause = (TextualWhereClauseAttribute)whereClauseAttribute;
+
+                switch (textualWhereClause.StringMethod)
+                {
+                    case StringMethod.Contains:
+                    case StringMethod.StartsWith:
+                    case StringMethod.EndsWith:
+                        return Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression);
+                    case StringMethod.NotContains:
+                        textualWhereClause.StringMethod = StringMethod.Contains;
+                        return Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression));
+                    case StringMethod.NotStartsWith:
+                        textualWhereClause.StringMethod = StringMethod.StartsWith;
+                        return Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression));
+                    case StringMethod.NotEndsWith:
+                        textualWhereClause.StringMethod = StringMethod.EndsWith;
+                        return Expression.Not(Expression.Call(memberExpression, textualWhereClause.MethodInfo(), expression));
+                    default:
+                        return Expression.Equal(memberExpression, expression);
+                }
             }
 
             if (!Types.Contains(memberExpression.Type))
@@ -156,9 +175,13 @@ namespace SmartWhere
                     ComparisonOperator.Equal => Expression.Equal(memberExpression, expression),
                     ComparisonOperator.NotEqual => Expression.NotEqual(memberExpression, expression),
                     ComparisonOperator.GreaterThan => Expression.GreaterThan(memberExpression, expression),
+                    ComparisonOperator.NotGreaterThan => Expression.Not(Expression.GreaterThan(memberExpression, expression)),
                     ComparisonOperator.GreaterThanOrEqual => Expression.GreaterThanOrEqual(memberExpression, expression),
+                    ComparisonOperator.NotGreaterThanOrEqual => Expression.Not(Expression.GreaterThanOrEqual(memberExpression, expression)),
                     ComparisonOperator.LessThan => Expression.LessThan(memberExpression, expression),
+                    ComparisonOperator.NotLessThan => Expression.Not(Expression.LessThan(memberExpression, expression)),
                     ComparisonOperator.LessThanOrEqual => Expression.LessThanOrEqual(memberExpression, expression),
+                    ComparisonOperator.NotLessThanOrEqual => Expression.Not(Expression.LessThanOrEqual(memberExpression, expression)),
                     _ => Expression.Equal(memberExpression, expression)
                 };
             }
@@ -332,7 +355,7 @@ namespace SmartWhere
             ParameterExpression parameterExpression,
             MemberExpression lastEnumerableMember)
         {
-            var expression = SetExpressionByNull(whereClauseProperty, propertyValue, memberExpression.Type);
+            var expression = SetExpressionByNullableType(whereClauseProperty, propertyValue, memberExpression.Type);
 
             var methodExpression = SetMethodExpressionByType(memberExpression, whereClauseAttribute, expression);
 
