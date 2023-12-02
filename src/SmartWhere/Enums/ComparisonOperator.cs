@@ -1,16 +1,15 @@
-﻿namespace SmartWhere.Enums
+﻿namespace SmartWhere.Enums;
+
+public enum ComparisonOperator
 {
-    public enum ComparisonOperator
-    {
-        Equal,
-        NotEqual,
-        GreaterThan,
-        NotGreaterThan,
-        GreaterThanOrEqual,
-        NotGreaterThanOrEqual,
-        LessThan,
-        NotLessThan,
-        LessThanOrEqual,
-        NotLessThanOrEqual
-    }
+    Equal,
+    NotEqual,
+    GreaterThan,
+    NotGreaterThan,
+    GreaterThanOrEqual,
+    NotGreaterThanOrEqual,
+    LessThan,
+    NotLessThan,
+    LessThanOrEqual,
+    NotLessThanOrEqual
 }

@@ -1,12 +1,11 @@
-﻿namespace SmartWhere.Enums
+﻿namespace SmartWhere.Enums;
+
+public enum StringMethod
 {
-    public enum StringMethod
-    {
-        Contains,
-        NotContains,
-        StartsWith,
-        NotStartsWith,
-        EndsWith,
-        NotEndsWith
-    }
+    Contains,
+    NotContains,
+    StartsWith,
+    NotStartsWith,
+    EndsWith,
+    NotEndsWith
 }

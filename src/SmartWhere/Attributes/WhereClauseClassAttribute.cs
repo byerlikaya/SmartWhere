@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace SmartWhere.Attributes;
 
-namespace SmartWhere.Attributes
+[AttributeUsage(AttributeTargets.Property)]
+public class WhereClauseClassAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class WhereClauseClassAttribute : Attribute
-    {
-    }
 }
