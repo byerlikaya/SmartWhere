@@ -2,8 +2,8 @@
 
 public static class SmartWhere
 {
-    private static readonly List<Type> Types = new()
-    {
+    private static readonly List<Type> Types =
+    [
         typeof(short),
         typeof(int),
         typeof(long),
@@ -18,7 +18,7 @@ public static class SmartWhere
         typeof(bool?),
         typeof(DateTime),
         typeof(DateTime?)
-    };
+    ];
 
     public static IQueryable<T> Where<T>(this IQueryable<T> source, IWhereClause whereClauseDto)
     {

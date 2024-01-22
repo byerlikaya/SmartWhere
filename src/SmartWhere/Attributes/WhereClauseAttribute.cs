@@ -1,17 +1,14 @@
 ﻿namespace SmartWhere.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class WhereClauseAttribute : Attribute
+public class WhereClauseAttribute(string propertyName, LogicalOperator logicalOperator = LogicalOperator.AND)
+    : Attribute
 {
-    public string PropertyName { get; set; }
+    public string PropertyName { get; set; } = propertyName;
 
-    public LogicalOperator LogicalOperator { get; set; }
+    public LogicalOperator LogicalOperator { get; set; } = logicalOperator;
 
-    public WhereClauseAttribute(LogicalOperator logicalOperator = LogicalOperator.AND) => LogicalOperator = logicalOperator;
-
-    public WhereClauseAttribute(string propertyName, LogicalOperator logicalOperator = LogicalOperator.AND)
+    public WhereClauseAttribute(LogicalOperator logicalOperator = LogicalOperator.AND) : this(null, logicalOperator)
     {
-        PropertyName = propertyName;
-        LogicalOperator = logicalOperator;
     }
 }

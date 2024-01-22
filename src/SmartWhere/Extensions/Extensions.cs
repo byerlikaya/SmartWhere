@@ -24,7 +24,7 @@ internal static class Extensions
             .ToList();
 
         if (whereClauseProperties.IsNullOrNotAny())
-            return new List<PropertyInfo>();
+            return [];
 
         valueData = whereClauseProperties.FirstOrDefault()!.GetValue(whereClauseDto);
 
