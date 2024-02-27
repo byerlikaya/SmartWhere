@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>SmartWhere</PackageId>
-    <Version>2.2.0.1</Version>
+    <Version>2.2.0.2</Version>
     <Authors>Barış Yerlikaya</Authors>
     <Company>Barış Yerlikaya</Company>
     <Product>SmartWhere</Product>
