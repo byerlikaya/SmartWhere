@@ -1,14 +1,13 @@
 ﻿using Sample.Common;
 
-namespace Sample.Api
+namespace Sample.Api;
+
+public static class PublisherData
 {
-    public static class PublisherData
+    public static void FillDummyData()
     {
-        public static void FillDummyData()
-        {
-            PublisherRepository publisherRepository = new();
-            var publisher = DataInitializer.FillMockData().ToList();
-            publisherRepository.AddRange(publisher);
-        }
+        PublisherRepository publisherRepository = new();
+        var publisher = DataInitializer.FillMockData().ToList();
+        publisherRepository.AddRange(publisher);
     }
 }
