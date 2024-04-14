@@ -1,154 +1,153 @@
-namespace SmartWhere.Test
+namespace SmartWhere.Test;
+
+public class WhereClauseTest
 {
-    public class WhereClauseTest
+    private readonly IQueryable<Publisher> _publishers = DataInitializer.FillMockData();
+
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_PublisherId()
     {
-        private readonly IQueryable<Publisher> _publishers = DataInitializer.FillMockData();
-
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_PublisherId()
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                PublisherId = 3
-            };
+            PublisherId = 3
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Id == 3));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Id == 3));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_PublisherName()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_PublisherName()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                Name = "Publisher 4"
-            };
+            Name = "Publisher 4"
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Name == "Publisher 4"));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Name == "Publisher 4"));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_PublisherId_And_Name()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_PublisherId_And_Name()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                PublisherId = 4,
-                Name = "Publisher 4"
-            };
+            PublisherId = 4,
+            Name = "Publisher 4"
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Name == "Publisher 4" && x.Id == 4));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Name == "Publisher 4" && x.Id == 4));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_AuthorName()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_AuthorName()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                AuthorName = "George Eliot"
-            };
+            AuthorName = "George Eliot"
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Books.Any(b => b.Author.Name == "George Eliot")));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Books.Any(b => b.Author.Name == "George Eliot")));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_BookName()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_BookName()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                BookName = "Middlemarch"
-            };
+            BookName = "Middlemarch"
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Books.Any(b => b.Name == "Middlemarch")));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Books.Any(b => b.Name == "Middlemarch")));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_BookName_And_AuthorName()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_BookName_And_AuthorName()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                BookName = "Middlemarch",
-                AuthorName = "George Eliot"
-            };
+            BookName = "Middlemarch",
+            AuthorName = "George Eliot"
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Books.Any(b => b.Name == "Middlemarch" && b.Author.Name == "George Eliot")));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Books.Any(b => b.Name == "Middlemarch" && b.Author.Name == "George Eliot")));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_BookPublishedYear()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_BookPublishedYear()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                BookPublishedYear = 1986
-            };
+            BookPublishedYear = 1986
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Books.Any(b => b.PublishedYear == 1986)));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Books.Any(b => b.PublishedYear == 1986)));
+    }
 
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_AuthorAge()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_AuthorAge()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                AuthorAge = 30
-            };
+            AuthorAge = 30
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Books.Any(b => b.Author.Age == 30)));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Books.Any(b => b.Author.Age == 30)));
+    }
 
-        [Fact]
-        public void SmartWhere_Should_Return_Results_By_AuthorCountry()
+    [Fact]
+    public void SmartWhere_Should_Return_Results_By_AuthorCountry()
+    {
+        //Arrange
+        PublisherSearchRequest request = new()
         {
-            //Arrange
-            PublisherSearchRequest request = new()
-            {
-                AuthorCountry = "Turkey"
-            };
+            AuthorCountry = "Turkey"
+        };
 
-            //Act
-            var result = _publishers.Where(request);
+        //Act
+        var result = _publishers.Where(request);
 
-            //Assert
-            Assert.True(result.Any(x => x.Books.Any(b => b.Author.Country.Name == "Turkey")));
-        }
+        //Assert
+        Assert.True(result.Any(x => x.Books.Any(b => b.Author.Country.Name == "Turkey")));
     }
 }
