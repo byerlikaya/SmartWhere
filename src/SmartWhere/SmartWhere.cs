@@ -252,7 +252,7 @@ public static class SmartWhere
                 {
                     methodExpression = Expression.Call(typeof(Enumerable),
                         "Any",
-                        new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
+                        [lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault()],
                         lastEnumerableMember,
                         Expression.Lambda(methodExpression!, parameterExpression!));
                 }
@@ -345,7 +345,7 @@ public static class SmartWhere
         {
             return Expression.Call(typeof(Enumerable),
                 "Any",
-                new[] { lastMember.Type.GetGenericArguments().FirstOrDefault() },
+                [lastMember.Type.GetGenericArguments().FirstOrDefault()],
                 lastMember,
                 Expression.Lambda(methodExpression, parameterExpression));
         }
@@ -357,7 +357,7 @@ public static class SmartWhere
         {
             return Expression.Call(typeof(Enumerable),
                 "Any",
-                new[] { lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault() },
+                [lastEnumerableMember.Type.GetGenericArguments().FirstOrDefault()],
                 lastEnumerableMember,
                 Expression.Lambda(methodExpression!, parameterExpression));
         }
