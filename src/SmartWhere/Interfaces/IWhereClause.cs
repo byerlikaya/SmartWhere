@@ -1,5 +1,3 @@
 ﻿namespace SmartWhere.Interfaces;
 
-public interface IWhereClause
-{
-}
+public interface IWhereClause;

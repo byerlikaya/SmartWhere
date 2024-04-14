@@ -1,9 +1,8 @@
-﻿namespace Sample.Common.Entity
-{
-    public class Country
-    {
-        public int Id { get; set; }
+﻿namespace Sample.Common.Entity;
 
-        public string Name { get; set; }
-    }
+public class Country
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
 }

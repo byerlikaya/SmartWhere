@@ -1,29 +1,28 @@
 ﻿using SmartWhere.Attributes;
 using SmartWhere.Interfaces;
 
-namespace Sample.Common.Dto
+namespace Sample.Common.Dto;
+
+public class PublisherSearchRequest : IWhereClause
 {
-    public class PublisherSearchRequest : IWhereClause
-    {
-        [WhereClause(PropertyName = "Id")]
-        public int? PublisherId { get; set; }
+    [WhereClause(PropertyName = "Id")]
+    public int? PublisherId { get; set; }
 
-        [WhereClause]
-        public string Name { get; set; }
+    [WhereClause]
+    public string Name { get; set; }
 
-        [WhereClause("Book.Name")]
-        public string BookName { get; set; }
+    [WhereClause("Book.Name")]
+    public string BookName { get; set; }
 
-        [WhereClause("Books.Author.Name")]
-        public string AuthorName { get; set; }
+    [WhereClause("Books.Author.Name")]
+    public string AuthorName { get; set; }
 
-        [WhereClause("Book.PublishedYear")]
-        public int? BookPublishedYear { get; set; }
+    [WhereClause("Book.PublishedYear")]
+    public int? BookPublishedYear { get; set; }
 
-        [WhereClause("Book.Author.Age")]
-        public int? AuthorAge { get; set; }
+    [WhereClause("Book.Author.Age")]
+    public int? AuthorAge { get; set; }
 
-        [WhereClause("Book.Author.Country.Name")]
-        public string AuthorCountry { get; set; }
-    }
+    [WhereClause("Book.Author.Country.Name")]
+    public string AuthorCountry { get; set; }
 }
