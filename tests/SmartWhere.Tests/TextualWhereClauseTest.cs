@@ -10,7 +10,7 @@ public class TextualWhereClauseTest
         //Arrange
         TextualSearchRequest request = new()
         {
-            Name = "Nineteen"
+            Name = "Nineteen  "
         };
 
         //Act
