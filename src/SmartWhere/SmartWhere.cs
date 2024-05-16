@@ -38,6 +38,9 @@ public static class SmartWhere
             if (propertyValue.ValueControl())
                 continue;
 
+            if (propertyValue is string)
+                propertyValue = propertyValue.ToString().Trim();
+
             comparison = GetComparison<T>(
                 parameter,
                 whereClauseProperty,
