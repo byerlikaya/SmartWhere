@@ -24,7 +24,7 @@ public static class SmartWhere
     {
         var whereClauseProperties = whereClauseDto.GetWhereClauseProperties(out var valueData);
 
-        if (whereClauseProperties.IsNullOrNotAny())
+        if (whereClauseProperties.IsNullOrNotAny() || valueData.IsNull())
             return source.Where(x => true);
 
         Expression comparison = null;
@@ -195,7 +195,6 @@ public static class SmartWhere
 
         foreach (var (propertyInfo, propertyType) in properties)
         {
-
             if (!propertyType.Namespace!.StartsWith("System") ||
                 propertyInfo.PropertyType!.IsEnumarableType())
             {
@@ -290,9 +289,7 @@ public static class SmartWhere
         Expression parameterExpression)
     {
         if (lastMember.IsNull())
-        {
             return Expression.Property(baseParameter, propertyInfo.Name);
-        }
 
         return currentType.IsEnumarableType()
             ? Expression.MakeMemberAccess(parameterExpression, propertyInfo)
@@ -312,9 +309,7 @@ public static class SmartWhere
         ParameterExpression parameterExpression)
     {
         if (currentType.IsEnumarableType())
-        {
             return Expression.Parameter(type!, type!.Name.ToLower());
-        }
 
         return parameterExpression.IsNull()
             ? Expression.Parameter(type, type.Name.ToLower())
