@@ -93,7 +93,6 @@ jobs:
         dotnet pack ./src/SmartWhere/SmartWhere.csproj \
           --configuration Release \
           --output ./packages \
-          --no-build \
           --verbosity normal \
           -p:Version=${{ steps.get_version.outputs.VERSION }} \
           -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} \
