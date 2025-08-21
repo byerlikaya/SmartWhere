@@ -1,6 +1,6 @@
 # 🚀 SmartWhere - Intelligent .NET Filtering Library
 
-[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/byerlikaya/SmartWhere/dotnet.yml)](https://github.com/byerlikaya/SmartWhere/actions)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/byerlikaya/SmartWhere/ci.yml)](https://github.com/byerlikaya/SmartWhere/actions)
 [![SmartWhere Nuget](https://img.shields.io/nuget/v/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
 [![SmartWhere Nuget](https://img.shields.io/nuget/dt/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
 [![.NET](https://img.shields.io/badge/.NET-6.0-blue.svg)](https://dotnet.microsoft.com/)
@@ -315,7 +315,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📚 Resources
 
-* **📖 [Wiki Documentation](https://github.com/byerlikaya/SmartWhere/wiki)**
+* **📖 [Wiki Documentation](https://byerlikaya.github.io/SmartWhere/)**
+* **🏠 [GitHub Repository](https://github.com/byerlikaya/SmartWhere)**
 * **🐛 [Issue Tracker](https://github.com/byerlikaya/SmartWhere/issues)**
 * **💬 [Discussions](https://github.com/byerlikaya/SmartWhere/discussions)**
 * **📦 [NuGet Package](https://www.nuget.org/packages/SmartWhere)**

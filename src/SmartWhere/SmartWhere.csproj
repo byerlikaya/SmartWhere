@@ -12,7 +12,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/byerlikaya/SmartWhere</RepositoryUrl>
     <PackageTags>filter filtering where whereclause smartwhere netcore smart linq expression-tree</PackageTags>
-    <PackageProjectUrl>https://github.com/byerlikaya/SmartWhere#smartwhere</PackageProjectUrl>
+    <PackageProjectUrl>https://byerlikaya.github.io/SmartWhere/</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/byerlikaya/SmartWhere/main/icon.png</PackageIconUrl>
