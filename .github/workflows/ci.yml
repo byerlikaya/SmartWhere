@@ -75,8 +75,8 @@ jobs:
       id: get_version
       run: |
         # Check if this is a release commit
-        COMMIT_MSG="${{ github.event.head_commit.message }}"
         # Sanitize commit message to prevent script injection
+        COMMIT_MSG="${{ github.event.head_commit.message }}"
         COMMIT_MSG="${COMMIT_MSG//[^a-zA-Z0-9\[\]\.\-\_\s]/}"
         if [[ "$COMMIT_MSG" =~ \[release\] ]]; then
           echo "IS_RELEASE=true" >> $GITHUB_OUTPUT
@@ -150,8 +150,8 @@ jobs:
       id: get_version
       run: |
         # Check if this is a release commit
-        COMMIT_MSG="${{ github.event.head_commit.message }}"
         # Sanitize commit message to prevent script injection
+        COMMIT_MSG="${{ github.event.head_commit.message }}"
         COMMIT_MSG="${COMMIT_MSG//[^a-zA-Z0-9\[\]\.\-\_\s]/}"
         if [[ "$COMMIT_MSG" =~ \[release\] ]]; then
           # Get version from project file
