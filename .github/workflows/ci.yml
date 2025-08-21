@@ -90,6 +90,7 @@ jobs:
 
     - name: Pack NuGet package
       run: |
+        dotnet restore ./src/SmartWhere/SmartWhere.csproj
         dotnet pack ./src/SmartWhere/SmartWhere.csproj \
           --configuration Release \
           --output ./packages \
