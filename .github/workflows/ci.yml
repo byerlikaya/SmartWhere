@@ -1,0 +1,264 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  NUGET_PACKAGE_NAME: SmartWhere
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: |
+        dotnet build --no-restore --configuration Release --verbosity normal
+        dotnet build --no-restore --configuration Release --verbosity normal --no-dependencies
+
+    - name: Test
+      run: |
+        dotnet test --no-build --verbosity normal --configuration Release \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./coverage \
+          --logger "console;verbosity=detailed" \
+          --blame-hang-timeout 2m \
+          --blame-crash
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/**/*.cobertura.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+  package:
+    name: Package NuGet
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && contains(github.event.head_commit.message, '[release]')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Get version
+      id: get_version
+      run: |
+        # Check if this is a release commit
+        if [[ "${{ github.event.head_commit.message }}" =~ \[release\] ]]; then
+          echo "IS_RELEASE=true" >> $GITHUB_OUTPUT
+          # Get version from project file
+          VERSION=$(grep -oP '<Version>\K[^<]+' ./src/SmartWhere/SmartWhere.csproj)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        else
+          echo "VERSION=0.0.0" >> $GITHUB_OUTPUT
+          echo "IS_RELEASE=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Pack NuGet package
+      run: |
+        dotnet pack ./src/SmartWhere/SmartWhere.csproj \
+          --configuration Release \
+          --output ./packages \
+          --no-build \
+          --verbosity normal \
+          -p:Version=${{ steps.get_version.outputs.VERSION }} \
+          -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} \
+          -p:GeneratePackageOnBuild=true \
+          -p:IncludeSymbols=true \
+          -p:SymbolPackageFormat=snupkg
+
+    - name: Upload NuGet package
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: ./packages/*.nupkg
+
+  publish-github-packages:
+    name: Publish to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: package
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && contains(github.event.head_commit.message, '[release]')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download NuGet package
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-package
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Publish to GitHub Packages
+      run: |
+        dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository }}/index.json"
+        dotnet nuget push ./**/*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [package, publish-github-packages]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && contains(github.event.head_commit.message, '[release]')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download NuGet package
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-package
+
+    - name: Get version
+      id: get_version
+      run: |
+        # Check if this is a release commit
+        if [[ "${{ github.event.head_commit.message }}" =~ \[release\] ]]; then
+          # Get version from project file
+          VERSION=$(grep -oP '<Version>\K[^<]+' ./src/SmartWhere/SmartWhere.csproj)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        else
+          echo "VERSION=0.0.0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+        echo "## 🚀 SmartWhere v${{ steps.get_version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### ✨ What's New" >> $GITHUB_OUTPUT
+        echo "- 🎯 Enhanced filtering capabilities with improved performance" >> $GITHUB_OUTPUT
+        echo "- 🔍 Advanced nested property support for complex queries" >> $GITHUB_OUTPUT
+        echo "- ⚡ Optimized expression tree generation for better performance" >> $GITHUB_OUTPUT
+        echo "- 🛡️ Enhanced null handling and error prevention" >> $GITHUB_OUTPUT
+        echo "- 📚 Comprehensive documentation and examples" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### 🚀 Quick Start" >> $GITHUB_OUTPUT
+        echo '```bash' >> $GITHUB_OUTPUT
+        echo 'dotnet add package SmartWhere --version ${{ steps.get_version.outputs.VERSION }}' >> $GITHUB_OUTPUT
+        echo '```' >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### 🔗 Resources" >> $GITHUB_OUTPUT
+        echo "- 📦 [NuGet Package](https://www.nuget.org/packages/SmartWhere)" >> $GITHUB_OUTPUT
+        echo "- 🏠 [GitHub Repository](https://github.com/${{ github.repository }})" >> $GITHUB_OUTPUT
+        echo "- 📖 [Documentation](https://github.com/${{ github.repository }}/wiki)" >> $GITHUB_OUTPUT
+        echo "- 🐛 [Report Issues](https://github.com/${{ github.repository }}/issues)" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT
+        echo "### ⭐ Support the Project" >> $GITHUB_OUTPUT
+        echo "If you find SmartWhere useful, please consider giving it a star on GitHub!" >> $GITHUB_OUTPUT
+        echo "EOF"
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.get_version.outputs.VERSION }}
+        release_name: SmartWhere v${{ steps.get_version.outputs.VERSION }}
+        body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./**/*.nupkg
+        asset_name: SmartWhere.${{ steps.get_version.outputs.VERSION }}.nupkg
+        asset_content_type: application/octet-stream
+
+  publish-nuget:
+    name: Publish to NuGet.org
+    runs-on: ubuntu-latest
+    needs: [package, create-release]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && contains(github.event.head_commit.message, '[release]')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download NuGet package
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-package
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Publish to NuGet.org
+      run: |
+        dotnet nuget push ./**/*.nupkg \
+          --source https://api.nuget.org/v3/index.json \
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --skip-duplicate
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v2
+      with:
+        languages: csharp
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Dependency Review
+      uses: actions/dependency-review-action@v3
+      with:
+        fail-on-severity: moderate
