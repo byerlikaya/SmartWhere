@@ -3,7 +3,7 @@
 [![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/byerlikaya/SmartWhere/ci.yml)](https://github.com/byerlikaya/SmartWhere/actions)
 [![SmartWhere Nuget](https://img.shields.io/nuget/v/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
 [![SmartWhere Nuget](https://img.shields.io/nuget/dt/SmartWhere)](https://www.nuget.org/packages/SmartWhere)
-[![.NET](https://img.shields.io/badge/.NET-6.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-Standard%202.0%2B-blue.svg)](https://dotnet.microsoft.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Code Quality](https://img.shields.io/badge/Code%20Quality-SOLID%20%7C%20DRY-brightgreen.svg)](https://github.com/byerlikaya/SmartWhere)
 
