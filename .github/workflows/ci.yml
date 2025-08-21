@@ -94,7 +94,6 @@ jobs:
           --verbosity normal \
           -p:Version=${{ steps.get_version.outputs.VERSION }} \
           -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} \
-          -p:GeneratePackageOnBuild=true \
           -p:IncludeSymbols=true \
           -p:SymbolPackageFormat=snupkg
 
