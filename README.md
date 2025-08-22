@@ -335,7 +335,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ by Barış Yerlikaya**
 
-Made in Turkey 🇹🇷 | [Contact](mailto:contact@example.com) | [LinkedIn](https://linkedin.com/in/byerlikaya)
+Made in Turkey 🇹🇷 | [Contact](mailto:b.yerlikaya@outlook.com) | [LinkedIn](https://www.linkedin.com/in/barisyerlikaya/)
 
 ---
 
