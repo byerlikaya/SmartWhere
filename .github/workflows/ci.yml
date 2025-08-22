@@ -75,10 +75,7 @@ jobs:
       id: get_version
       run: |
         # Check if this is a release commit
-        # Sanitize commit message to prevent script injection
-        COMMIT_MSG="${{ github.event.head_commit.message }}"
-        COMMIT_MSG="${COMMIT_MSG//[^a-zA-Z0-9\[\]\.\-\_\s]/}"
-        if [[ "$COMMIT_MSG" =~ \[release\] ]]; then
+        if [[ "${{ github.event.head_commit.message }}" =~ \[release\] ]]; then
           echo "IS_RELEASE=true" >> $GITHUB_OUTPUT
           # Get version from project file
           VERSION=$(grep -oP '<Version>\K[^<]+' ./src/SmartWhere/SmartWhere.csproj)
@@ -150,10 +147,7 @@ jobs:
       id: get_version
       run: |
         # Check if this is a release commit
-        # Sanitize commit message to prevent script injection
-        COMMIT_MSG="${{ github.event.head_commit.message }}"
-        COMMIT_MSG="${COMMIT_MSG//[^a-zA-Z0-9\[\]\.\-\_\s]/}"
-        if [[ "$COMMIT_MSG" =~ \[release\] ]]; then
+        if [[ "${{ github.event.head_commit.message }}" =~ \[release\] ]]; then
           # Get version from project file
           VERSION=$(grep -oP '<Version>\K[^<]+' ./src/SmartWhere/SmartWhere.csproj)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
